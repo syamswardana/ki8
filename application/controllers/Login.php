@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 
 	function __construct(){
     parent::__construct();
-    $this->load->model('login_model');
+    $this->load->model('Users_model');
   }
 	public function index()
 	{
@@ -15,9 +15,8 @@ class Login extends CI_Controller {
 	public function auth()
 	{
 		$username = $this->input->post('username',TRUE);
-    $password = md5($this->input->post('password',TRUE));
-		// echo $this->input->post('password',TRUE);
-    $validate = $this->login_model->validate($username,$password);
+    $password = $this->input->post('password',TRUE);
+    $validate = $this->Users_model->validate($username,$password);
     if($validate->num_rows() > 0){
         $data  = $validate->row_array();
         $name  = $data['nama'];
@@ -31,7 +30,11 @@ class Login extends CI_Controller {
         );
         $this->session->set_userdata($sesdata);
 
-				redirect('dashboard');
+				if ($this->session->userdata('status')=='admin') {
+					redirect('DataPetugas');
+				} else {
+					redirect('DataBarang');
+				}
     }else{
         echo $this->session->set_flashdata('msg','Username atau Password salah');
         redirect('login');

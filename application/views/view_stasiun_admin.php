@@ -50,10 +50,10 @@
 
           <div class="col-md-2 d-none d-sm-block" id="sidebar">
             <ul class="" id="menu-sidebar">
-              <li class="sidebar-list active">
+              <li class="sidebar-list">
                 <a class="" href="<?php echo site_url("/dashboard") ?>"><span class="oi oi-people"></span> Data Petugas</a>
               </li>
-              <li class="sidebar-list">
+              <li class="sidebar-list active">
                 <a class="" href="#"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
               </li>
             </li>
@@ -67,26 +67,24 @@
           <div class="container" id="main">
             <br>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambah">
-              Tambah
+              Tambah Stasiun
             </button>
             <br><br>
             <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Password</th>
+                    <th scope="col">ID Stasiun</th>
+                    <th scope="col">Nama Stasiun</th>
+                    <th scope="col">Kota/Kabupaten</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
-                    <td>syams</td>
-                    <td>Syams Rachman</td>
-                    <td>123456</td>
+                    <td>Jember</td>
+                    <td>Jember</td>
                     <td>
                       <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalEdit">
                         Edit
@@ -98,9 +96,8 @@
                   </tr>
                   <tr>
                     <th scope="row">2</th>
-                    <td>mifta</td>
-                    <td>Miftahul Hasanah</td>
-                    <td>123456</td>
+                    <td>Kalisat</td>
+                    <td>Jember</td>
                     <td>
                       <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalEdit">
                         Edit
@@ -112,9 +109,8 @@
                   </tr>
                   <tr>
                     <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>Larry Lobster</td>
-                    <td>123456</td>
+                    <td>Klakah</td>
+                    <td>Lumajang</td>
                     <td>
                       <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalEdit">
                         Edit
@@ -129,12 +125,12 @@
             </div><!--table-responsive-->
           </div>
 
-          <!-- Modal tambah-->
+          <!-- Modal tambah stasiun-->
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Tambah Petugas</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Tambah Stasiun</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -142,21 +138,15 @@
                 <div class="modal-body">
                   <form class="" action="index.html" method="post">
                     <div class="form-group row">
-                      <label for="username" class="col-sm-2 col-form-label">Username</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="username" placeholder="Username">
+                      <label for="stasiun" class="col-sm-4 col-form-label">Nama Stasiun</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="stasiun" placeholder="Masukan nama stasiun">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="nama" class="col-sm-2 col-form-label">Nama</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nama" placeholder="Nama">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="password" class="col-sm-2 col-form-label">Password</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="password" placeholder="Password">
+                      <label for="kota" class="col-sm-4 col-form-label">Kota/Kabupaten</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="kota" placeholder="Masukan kota/kabupaten">
                       </div>
                     </div>
                   </form>
@@ -181,21 +171,15 @@
                 <div class="modal-body">
                   <form class="" action="index.html" method="post">
                     <div class="form-group row">
-                      <label for="username" class="col-sm-2 col-form-label">Username</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="username" placeholder="Username">
+                      <label for="stasiun" class="col-sm-4 col-form-label">Nama Stasiun</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="stasiun" placeholder="Masukan nama stasiun">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="nama" class="col-sm-2 col-form-label">Nama</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nama" placeholder="Nama">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="password" class="col-sm-2 col-form-label">Password</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="password" placeholder="Password">
+                      <label for="kota" class="col-sm-4 col-form-label">Kota/Kabupaten</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="kota" placeholder="Masukan kota/kabupaten">
                       </div>
                     </div>
                   </form>

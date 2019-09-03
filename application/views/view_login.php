@@ -14,7 +14,7 @@
   </head>
   <body>
     <div class="row" style="margin:0;height:100%;">
-      <div class="col-md-6" id="image-kereta" style="height:100%;">
+      <div class="col-md-6 d-none d-sm-block" id="image-kereta" style="height:100%;">
       </div>
       <div class="col-md-6" style="height:100%;" id="container-login">
         <div class="col-md-8 offset-md-2 vertical-center" id="form-login">
