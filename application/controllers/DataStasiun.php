@@ -14,9 +14,9 @@ class DataKontainer extends CI_Controller {
 	}
 	public function index()
 	{
-		$data['kontainer'] = $this->Kontainer_model->show_kontainer()->result();
-		$data['rutes'] = $this->Kontainer_model->get_rutes()->result();
-		$this->load->view('view_kontainer_admin',$data);
+		// $data['kontainer'] = $this->Kontainer_model->show_kontainer()->result();
+		// $data['rutes'] = $this->Kontainer_model->get_rutes()->result();
+		$this->load->view('view_stasiun_admin');
 		// var_dump($data['kontainer']);
 
 	}

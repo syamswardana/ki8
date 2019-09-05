@@ -58,7 +58,7 @@
           </li>
         </li>
         <li class="sidebar-list">
-          <a class="" href="<?php echo site_url("dashboard/data_kontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
+          <a class="" href="<?php echo site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
         </li>
       </ul>
     </div>

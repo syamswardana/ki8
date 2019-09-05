@@ -25,9 +25,8 @@ class DataPetugas extends CI_Controller {
 			'username'=>$this->input->post('username',TRUE),
 			'nama'=>$this->input->post('nama',TRUE),
 			'stasiun'=>$this->input->post('stasiun',TRUE),
-			'password'=> md5($this->input->post('password',TRUE)),
+			'password'=> $this->input->post('password',TRUE),
 		);
-		var_dump($data);
 		$this->Users_model->insert_user($data);
 		redirect('DataPetugas');
 	}
