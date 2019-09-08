@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DataKontainer extends CI_Controller {
+class DataStasiun extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('Kontainer_model');
+		$this->load->model('Stasiun_model');
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect('login');
 		} elseif ($this->session->userdata('status')!='admin') {
@@ -14,9 +14,9 @@ class DataKontainer extends CI_Controller {
 	}
 	public function index()
 	{
-		// $data['kontainer'] = $this->Kontainer_model->show_kontainer()->result();
+		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
 		// $data['rutes'] = $this->Kontainer_model->get_rutes()->result();
-		$this->load->view('view_stasiun_admin');
+		$this->load->view('view_stasiun_admin',$data);
 		// var_dump($data['kontainer']);
 
 	}
@@ -24,31 +24,22 @@ class DataKontainer extends CI_Controller {
 	public function insert()
 	{
 		$data = array(
-			'rute_id'=>$this->input->post('rute',TRUE),
-			'panjang'=>$this->input->post('panjang',TRUE),
-			'lebar'=>$this->input->post('lebar',TRUE),
-			'tinggi'=> $this->input->post('tinggi',TRUE),
-			'berat_maksimal'=> $this->input->post('berat',TRUE),
-			'tanggal_digunakan'=> $this->input->post('tanggal',TRUE)
+			'nama_stasiun'=>$this->input->post('stasiun',TRUE),
+			'kota'=>$this->input->post('kota',TRUE),
 		);
-		$this->Kontainer_model->insert_kontainer($data);
-		redirect('DataKontainer');
+		$this->Stasiun_model->insert_stasiun($data);
+		redirect('DataStasiun');
 	}
 
-	public function get_kontainer()
+	public function get_stasiun()
 	{
 		$id=$this->input->get('id');
-		$kontainer=$this->Kontainer_model->get_kontainer($id)->result();
-
-		foreach ($kontainer as $row) {
+		$stasiun=$this->Stasiun_model->get_stasiun($id)->result();
+		foreach ($stasiun as $row) {
 			$data = array (
 				'id' => $row->id,
-				'rute_id'=>$row->rute_id,
-				'panjang'=>$row->panjang,
-				'lebar'=>$row->lebar,
-				'tinggi'=> $row->tinggi,
-				'berat_maksimal'=> $row->berat_maksimal,
-				'tanggal_digunakan'=> $row->tanggal_digunakan
+				'stasiun'=>$row->nama_stasiun,
+				'kota'=>$row->kota
 			);
 		}
 		echo json_encode($data);
@@ -59,22 +50,17 @@ class DataKontainer extends CI_Controller {
 		// Rute 	Panjang (cm) 	Lebar (cm) 	Tinggi (cm) 	Berat Max (kg) 	Tgl digunakan
 		$data = array(
 			'id' => $this->input->post('id_edit'),
-			'rute' => $this->input->post('rute_edit'),
-			'panjang' => $this->input->post('panjang_edit'),
-			'lebar' => $this->input->post('lebar_edit'),
-			'tinggi' => $this->input->post('tinggi_edit'),
-			'berat' => $this->input->post('berat_edit'),
-			'tanggal' => $this->input->post('tanggal_edit')
-
+			'nama_stasiun' => $this->input->post('stasiun_edit'),
+			'kota' => $this->input->post('kota_edit'),
 	 );
-	 $this->Kontainer_model->update_kontainer($data);
-	 redirect('DataKontainer');
+	 $this->Stasiun_model->update_stasiun($data);
+	 redirect('DataStasiun');
 	}
 	public function delete()
 	{
 		$id = $this->input->get('id_hapus');
-		$this->Kontainer_model->delete_kontainer($id);
+		$this->Stasiun_model->delete_stasiun($id);
 		// var_dump($id);
-		redirect('DataKontainer');
+		redirect('DataStasiun');
 	}
 }
