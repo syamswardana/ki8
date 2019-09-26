@@ -47,7 +47,7 @@
               <a class="" href="<?php echo site_url("DataBarang") ?>"><span class="oi oi-box"></span> Data Barang</a>
             </li>
             <li class="sidebar-list">
-              <a class="" href="#"><span class="oi oi-eye"></span> Visualisasi 3D</a>
+              <a class="" href="<?php echo site_url("Visual3d") ?>"><span class="oi oi-eye"></span> Visualisasi 3D</a>
             </li>
           </li>
         </ul>
