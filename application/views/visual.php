@@ -23,26 +23,26 @@
 
 	//kontainer
 	var kontainer = [10,3,3,400];
-	var geometryKontainer = new THREE.BoxGeometry( 10, 3, 3);
+	var geometryKontainer = new THREE.BoxGeometry( kontainer[0]*100, kontainer[1]*100, kontainer[2]*100);
 	var edges = new THREE.EdgesGeometry( geometryKontainer );
 	var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
 	scene.add( line );
 
 	//Barang
 	//id,panjang,lebar,tinggi, berat
-	var barang = [
-		[0,10,21,9,1],
-		[0,4,8,7,1],
-		[0,11,20,10,1],
-		[0,12,5,7,1],
-		[0,13,8,20,1]
-	];
+	// var barang = [
+	// 	[0,10,21,9,1],
+	// 	[0,4,8,7,1],
+	// 	[0,11,20,10,1],
+	// 	[0,12,5,7,1],
+	// 	[0,13,8,20,1]
+	// ];
 
 	class Random {
 		constructor(angka){
 			this.angka = new Array(angka);
 			for (var i = 0; i < angka; i++) {
-				this.angka[i] = i+1;
+				this.angka[i] = i;
 			}
 		}
 		pop(){
@@ -74,57 +74,62 @@
 				this.rotasi[i] = Math.floor(Math.random() * 6)+1;
 			}
 
+
 			this.fitness = 0;
 		}
 
 		//Calculate fitness
 		calcFitness() {
-			var kpanjang = this.kontainer[0] ;
-			var klebar = this.kontainer[1] ;
-			var ktinggi = this.kontainer[2];
+			var kpanjang = this.kontainer[0]*100 ;
+			var klebar = this.kontainer[1]*100 ;
+			var ktinggi = this.kontainer[2]*100;
 			var kberat = this.kontainer[3];
-			var sisapanjang = this.kontainer[0] ;
-			var sisalebar = this.kontainer[1] ;
-			var sisatinggi = this.kontainer[2];
-
-			var genes = this.genes;
+			var sisapanjang = this.kontainer[0]*100 ;
+			var sisalebar = this.kontainer[1]*100 ;
+			var sisatinggi = this.kontainer[2]*100;
 			var barangmasuk = [];
+			// console.log("genes : "+this.genes);
 			//id,panjang,lebar,tinggi, berat
 			for (var i = 0; i < this.barang.length; i++) {
-				if (this.barang[genes[i]][4]<kberat) {
-					if (barang[genes[i]][2]<sisalebar) {
-						if (barang[genes[i]][3]<sisatinggi) {
-							if (barang[genes[i]][1]<sisapanjang) {
-								barangmasuk.push(genes[i]);
-								kberat-=this.barang[genes[i]][4];
-								sisalebar-=this.barang[genes[i]][2];
-								sisatinggi-=this.barang[genes[i]][3];
-								sisapanjang-=this.barang[genes[i]][1];
+				var brg = this.barang[this.genes[i]];
+				if (brg[4]<kberat) {
+					if (brg[2]<sisalebar) {
+						if (brg[3]<sisatinggi) {
+							if (brg[1]<sisapanjang) {
+								barangmasuk.push(this.genes[i]);
+								kberat-=brg[4];
+								sisalebar-=brg[2];
+								sisatinggi-=brg[3];
+								sisapanjang-=brg[1];
 							} //panjang
 						} //tinggi
 					} //lebar
 					else {
-						if (barang[genes[i]][2]<klebar&&barang[genes[i]][3]<sisatinggi) {
-							barangmasuk.push(genes[i]);
-							kberat-=this.barang[genes[i]][4];
-							sisatinggi-=this.barang[genes[i]][3];
-						} else if (barang[genes[i]][2]<klebar&&barang[genes[i]][3]<ktinggi&&barang[genes[i]][1]<sisapanjang) {
-							barangmasuk.push(genes[i]);
-							kberat-=this.barang[genes[i]][4];
-							sisapanjang-=this.barang[genes[i]][1];
+						if (brg[2]<klebar&&brg[3]<sisatinggi) {
+							barangmasuk.push(this.genes[i]);
+							kberat-=brg[4];
+							sisatinggi-=brg[3];
+						} else if (brg[2]<klebar&&brg[3]<ktinggi&&brg[1]<sisapanjang) {
+							barangmasuk.push(this.genes[i]);
+							kberat-=brg[4];
+							sisapanjang-=brg[1];
+							sisatinggi=ktinggi-brg[3];
+							sisalebar=klebar-brg[2];
+
 						}
 					}
 				} //berat
 			}
-
+			// console.log("barang masuk : " +barangmasuk);
 			//hitung volume barang/volume kontainer * 100%
 			var vol_total_barang = 0
 			var vol_kontainer = kpanjang*klebar*ktinggi;
 			for (var i = 0; i < barangmasuk.length; i++) {
-				var vol_barang = barang[barangmasuk[i]][1]*barang[barangmasuk[i]][2]*barang[barangmasuk[i]][3];
+				var vol_barang = this.barang[barangmasuk[i]][1]*this.barang[barangmasuk[i]][2]*this.barang[barangmasuk[i]][3];
 				vol_total_barang+=vol_barang;
 			}
-			this.fitness = vol_total_barang/vol_kontainer*100;
+			this.fitness = (vol_total_barang/vol_kontainer)*100;
+			// console.log(this.fitness);
 		}
 
 	}
@@ -134,7 +139,7 @@
 
 		constructor(kontainer,barang){
 			//populasi 10 individu
-			this.individuals = new Individual[10];
+			this.individuals = new Array(10);
 			for (var i = 0; i < this.individuals.length; i++) {
 				//buat individu
 				this.individuals[i] = new Individual(kontainer,barang);
@@ -150,8 +155,10 @@
 					maxFitIndex = i;
 				}
 			}
-			this.fittest = individuals[maxFitIndex].fitness;
-			return individuals[maxFitIndex];
+			// console.log(maxFitIndex);
+			// this.fittest = this.individuals[maxFitIndex].fitness;
+			this.fittest = maxFit;
+			return this.individuals[maxFitIndex];
 		}
 		//Get the second most fittest individual
 		getSecondFittest() {
@@ -165,7 +172,7 @@
 					maxFit2 = i;
 				}
 			}
-			return individuals[maxFit2];
+			return this.individuals[maxFit2];
 		}
 		//Get index of least fittest individual
 		getLeastFittestIndex() {
@@ -185,97 +192,137 @@
 			for (var i = 0; i < this.individuals.length; i++) {
 				this.individuals[i].calcFitness();
 			}
-			getFittest();
+			this.getFittest();
 		}
 
 
 	}
-	//mulai algoritma
-	var population = new Population(kontainer,barang);
-  var fittest;
-  var secondFittest;
-	var generationCount = 0;
-	population.calculateFitness();
-	//Selection
-	void selection() {
 
-		//Select the most fittest individual
-		fittest = population.getFittest();
+	class Genetik {
+		constructor(kontainer,barang) {
+			//mulai algoritma
+			this.population = new Population(kontainer,barang);
+			this.fittest;
+			this.secondFittest;
+			this.generationCount = 0;
+		}
+		//Selection
+		selection() {
 
-		//Select the second most fittest individual
-		secondFittest = population.getSecondFittest();
-	}
+			//Select the most fittest individual
+			this.fittest = this.population.getFittest();
 
-	//Crossover
-	void crossover() {
-		//nentukan crossOverPoint
-		var crossOverPoint = Math.floor(Math.random() * population.individuals[0].length);
+			//Select the second most fittest individual
+			this.secondFittest = this.population.getSecondFittest();
+		}
 
-		//Swap values among parents
-		for (var i = 0; i < crossOverPoint; i++) {
-			var temp = fittest.genes[i];
-			fittest.genes[i] = secondFittest.genes[i];//set gene 1 = gene 2
-			for (var j = 0; j < fittest.genes.length; j++) {
-				if (fittest.genes[j]==fittest.genes[i] && j!=i) {
-					fittest.genes[j] = temp;
+		//Crossover
+		crossover() {
+			//nentukan crossOverPoint
+			// console.log(this.population.individuals);
+			var crossOverPoint = Math.floor(Math.random() * this.population.individuals[0].length);
+
+			//Swap values among parents
+			for (var i = 0; i < crossOverPoint; i++) {
+				var temp = this.fittest.genes[i];
+				this.fittest.genes[i] = this.secondFittest.genes[i];//set gene 1 = gene 2
+				for (var j = 0; j < this.fittest.genes.length; j++) {
+					if (this.fittest.genes[j]==this.fittest.genes[i] && j!=i) {
+						this.fittest.genes[j] = temp;
+					}
+				}
+				this.secondFittest.genes[i] = temp; //set gene 2 = gene 1
+				for (var j = 0; j < this.fittest.genes.length; j++) {
+					if (this.secondFittest.genes[j]==temp && j!=i) {
+						this.secondFittest.genes[j] = this.fittest.genes[i];
+					}
 				}
 			}
-			secondFittest.genes[i] = temp; //set gene 2 = gene 1
-			for (var j = 0; j < fittest.genes.length; j++) {
-				if (secondFittest.genes[j]==temp && j!=i) {
-					secondFittest.genes[j] = fittest.genes[i];
-				}
+		}
+
+		//Mutation
+		mutation() {
+
+			//Select a random mutation point
+			var mutationPoint = Math.floor(Math.random() * this.population.individuals[0].length);
+			var mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
+
+			//Flip values at the mutation point
+			while (mutationPoint == mutationPoint2) {
+				mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
 			}
+			var temp = this.fittest.genes[mutationPoint];
+			this.fittest.genes[mutationPoint] = this.fittest.genes[mutationPoint2];
+			this.fittest.genes[mutationPoint2] = temp;
+
+			//Select a random mutation point
+			mutationPoint = Math.floor(Math.random() * this.population.individuals[0].length);
+			mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
+
+			//Flip values at the mutation point
+			while (mutationPoint == mutationPoint2) {
+				mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
+			}
+			var temp = this.secondFittest.genes[mutationPoint];
+			this.secondFittest.genes[mutationPoint] = this.secondFittest.genes[mutationPoint2];
+			this.secondFittest.genes[mutationPoint2] = temp;
+
 		}
 
-	}
-
-	//Mutation
-	void mutation() {
-		Random rn = new Random();
-
-		//Select a random mutation point
-		int mutationPoint = rn.nextInt(population.individuals[0].geneLength);
-
-		//Flip values at the mutation point
-		if (fittest.genes[mutationPoint] == 0) {
-			fittest.genes[mutationPoint] = 1;
-		} else {
-			fittest.genes[mutationPoint] = 0;
+		//Get fittest offspring
+		getFittestOffspring() {
+			if (this.fittest.fitness > this.secondFittest.fitness) {
+				return this.fittest;
+			}
+			return this.secondFittest;
 		}
 
-		mutationPoint = rn.nextInt(population.individuals[0].geneLength);
-
-		if (secondFittest.genes[mutationPoint] == 0) {
-			secondFittest.genes[mutationPoint] = 1;
-		} else {
-			secondFittest.genes[mutationPoint] = 0;
-		}
-	}
-
-	//Get fittest offspring
-	Individual getFittestOffspring() {
-		if (fittest.fitness > secondFittest.fitness) {
-			return fittest;
-		}
-		return secondFittest;
-	}
-
-
-	//Replace least fittest individual from most fittest offspring
-	void addFittestOffspring() {
-
-		//Update fitness values of offspring
-		fittest.calcFitness();
-		secondFittest.calcFitness();
-
-		//Get index of least fit individual
-		int leastFittestIndex = population.getLeastFittestIndex();
 
 		//Replace least fittest individual from most fittest offspring
-		population.individuals[leastFittestIndex] = getFittestOffspring();
+		addFittestOffspring() {
+
+			//Update fitness values of offspring
+			this.fittest.calcFitness();
+			this.secondFittest.calcFitness();
+
+			//Get index of least fit individual
+			var leastFittestIndex = this.population.getLeastFittestIndex();
+
+			//Replace least fittest individual from most fittest offspring
+			this.population.individuals[leastFittestIndex] = this.getFittestOffspring();
+		}
+		start(){
+			this.population.calculateFitness();
+			console.log("Generation: " + this.generationCount + " Fittest: " + this.population.fittest);
+			//While population gets an individual with maximum fitness
+			while (this.population.fittest < 100 && this.generationCount<100) {
+				this.generationCount++;
+
+				//Do selection
+				this.selection();
+
+				//Do crossover
+				this.crossover();
+
+				//Do mutation under a random probability
+				if (Math.floor(Math.random() * 100)+1 < 5) {
+					this.mutation();
+				}
+
+				//Add fittest offspring to population
+				this.addFittestOffspring();
+
+				//Calculate new fitness value
+				this.population.calculateFitness();
+
+				console.log("Generation: " + this.generationCount + " Fittest: " + this.population.fittest);
+			}
+			console.log("\nSolution found in generation " + this.generationCount);
+			console.log("Fitness: "+this.population.getFittest().fitness);
+			console.log("Genes: "+this.population.getFittest().genes.join());
+			console.log("");
+		}
 	}
-	console.log("Generation: " + generationCount + " Fittest: " + population.fittest);
 
 	//Barang
 	// var barang = [];
@@ -284,17 +331,105 @@
 		url  : "<?php echo site_url("Visual3d/barang")?>",
 		dataType : "JSON",
 		success: function(data){
-			// barang = data;
-		}
+			//id,panjang,lebar,tinggi, berat
+			var barang = [];
+			for (var i = 0; i < data.length; i++) {
+				barang.push([]);
+				barang[i][0] = data[i].id;
+				barang[i][1] = data[i].panjang;
+				barang[i][2] = data[i].lebar;
+				barang[i][3] = data[i].tinggi;
+				barang[i][4] = data[i].berat;
+			}
+			// console.log(barang);
+			var algoritma = new Genetik(kontainer,barang);
+			algoritma.start();
+			var fittest = algoritma.fittest.genes;
+			visual(fittest);
+			function visual(fittest) {
+
+				var kpanjang = this.kontainer[0]*100 ;
+				var klebar = this.kontainer[1]*100 ;
+				var ktinggi = this.kontainer[2]*100;
+				var kberat = this.kontainer[3];
+				var sisapanjang = this.kontainer[0]*100 ;
+				var sisalebar = this.kontainer[1]*100 ;
+				var sisatinggi = this.kontainer[2]*100;
+				//id,panjang,lebar,tinggi, berat
+				for (var i = 0; i < barang.length; i++) {
+					var brg = barang[fittest[i]];
+					if (brg[4]<kberat) {
+						if (brg[2]<sisalebar) {
+							if (brg[3]<ktinggi) {
+								if (brg[1]<sisapanjang) {
+
+									var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
+									var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+									var cube = new THREE.Mesh( geometry, material );
+									//kontainer p : 1000, l : 300, t : 300
+									//position p,t,l
+									cube.position.set((sisapanjang/2)-(brg[1]/2),((ktinggi/2*-1)+(brg[3]/2)),(sisalebar/2)-(brg[2]/2));
+									scene.add( cube );
+									kberat-=brg[4];
+									sisalebar-=brg[2];
+									sisatinggi-=brg[3];
+									sisapanjang-=brg[1];
+									console.log("normal");
+
+								} //panjang
+							} //tinggi
+						} //lebar
+						else {
+							//diatas
+							if (brg[2]<klebar&&brg[3]<sisatinggi) {
+								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
+								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var cube = new THREE.Mesh( geometry, material );
+								//kontainer p : 1000, l : 300, t : 300
+								//position p,t,l
+								cube.position.set((sisapanjang/2)-(brg[1]/2),((sisatinggi/2)-(brg[3]/2))*-1,(klebar/2)-(brg[2]/2));
+								scene.add( cube );
+								kberat-=brg[4];
+								sisatinggi-=brg[3];
+								console.log("diatas");
+								//dibelakang
+							} else if (brg[2]<klebar&&brg[3]<ktinggi&&brg[1]<sisapanjang) {
+								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
+								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var cube = new THREE.Mesh( geometry, material );
+								//kontainer p : 1000, l : 300, t : 300
+								//position p,t,l
+								cube.position.set((sisapanjang/2)-(brg[1]/2),((ktinggi/2)-(brg[3]/2))*-1,(klebar/2)-(brg[2]/2));
+								scene.add( cube );
+								kberat-=brg[4];
+								sisapanjang-=brg[1];
+								sisatinggi=ktinggi-brg[3];
+								sisalebar=klebar-brg[2];
+								console.log("barisbaru");
+							}
+						}
+					} //berat
+				}
+
+			}
+			// var geometry = new THREE.BoxGeometry( 50, 70, 40);
+			// var material = new THREE.MeshBasicMaterial( { color: 0x00fa9a } );
+			// var cube = new THREE.Mesh( geometry, material );
+			// //kontainer p : 1000, l : 300, t : 300
+			// //position p,t,l
+			//
+			// cube.position.set(475,-115,130);
+			// scene.add( cube );
+		}//success
 	});
-	setTimeout(function(){
 
-	}, 500);
-
-	var geometry = new THREE.BoxGeometry( 1, 1, 1);
-	var material = new THREE.MeshBasicMaterial( { color: 0x00fa9a } );
-	var cube = new THREE.Mesh( geometry, material );
-	scene.add( cube );
+	// var geometry = new THREE.BoxGeometry( 50, 70, 40);
+	// var material = new THREE.MeshBasicMaterial( { color: 0x00fa9a } );
+	// var cube = new THREE.Mesh( geometry, material );
+	// //kontainer p : 1000, l : 300, t : 300
+	// //position p,t,l
+	// cube.position.set(475,-115,130);
+	// scene.add( cube );
 
 
 
@@ -304,7 +439,8 @@
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	controls.addEventListener( 'change', render );
 	controls.enableZoom = true;
-	camera.position.set( 10, 5, 7 );
+	// camera.position.set( 10, 5, 7 );
+	camera.position.set( 1000, 500, 700 );
 	controls.update();
 
 	function update(event)
@@ -315,6 +451,6 @@
 	function render() {
 		renderer.render( scene, camera );
 	}
-	</script>
+</script>
 </body>
 </html>

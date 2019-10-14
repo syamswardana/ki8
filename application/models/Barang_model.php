@@ -5,7 +5,7 @@ class Barang_model extends CI_Model{
   public function show_barang()
   {
     // id	berat	panjang	lebar	tinggi	asal	tujuan	user_id
-    $this->db->select('barang.id, berat, panjang, lebar, tinggi, asa.nama_stasiun as asal, tuj.nama_stasiun as tujuan');
+    $this->db->select('barang.id, panjang, lebar, tinggi, berat, asa.nama_stasiun as asal, tuj.nama_stasiun as tujuan');
     $this->db->from('barang');
     $this->db->join('stasiun as asa','asa.id = barang.asal');
     $this->db->join('stasiun as tuj','tuj.id = barang.tujuan');
