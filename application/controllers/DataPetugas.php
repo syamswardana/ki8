@@ -6,6 +6,7 @@ class DataPetugas extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('Users_model');
+		$this->load->model('Stasiun_model');
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect('login');
 		} elseif ($this->session->userdata('status')!='admin') {
@@ -15,6 +16,7 @@ class DataPetugas extends CI_Controller {
 	public function index()
 	{
 		$data['users'] = $this->Users_model->show_users()->result();
+		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
 		$this->load->view('view_petugas_admin',$data);
 
 	}
@@ -41,7 +43,7 @@ class DataPetugas extends CI_Controller {
 				'id' => $row->id,
 				'username' => $row->username,
 				'nama' => $row->nama,
-				'stasiun' => $row->stasiun,
+				'id_stasiun' => $row->id_stasiun,
 				'password' => $row->password
 			);
 		}

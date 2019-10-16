@@ -28,10 +28,10 @@
           <a class="nav-link" href="<?= site_url('DataPetugas') ?>"><span class="oi oi-person"></span> Data Petugas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?= site_url("DataStasiun") ?>">Data Stasiun</a>
+          <a class="nav-link" href="<?= site_url("DataStasiun") ?>"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?= site_url("DataKontainer") ?>">Data Kontainer</a>
+          <a class="nav-link" href="<?= site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
         </li>
       </ul>
       <div class="dropdown">
@@ -83,7 +83,7 @@
                       <?php echo '<th scope="row">'.$row->id.'</th>' ?>
                       <?php echo '<td>'.$row->username.'</td>' ?>
                       <?php echo '<td>'.$row->nama.'</td>' ?>
-                      <?php echo '<td>'.$row->stasiun.'</td>' ?>
+                      <?php echo '<td>'.$row->id_stasiun.'</td>' ?>
                       <?php echo '<td>'.$row->password.'</td>' ?>
                       <td>
                         <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row->id ?>)" data-target="#modalEdit">
@@ -104,12 +104,12 @@
                       dataType : "JSON",
                       data : {id:id},
                       success: function(data){
-                        $.each(data,function(id, username, nama, stasiun, password){
+                        $.each(data,function(id, username, nama, id_stasiun, password){
                           // $('#ModalaEdit').modal('show');
                           $('[name="id_edit"]').val(data.id);
                           $('[name="username_edit"]').val(data.username);
                           $('[name="nama_edit"]').val(data.nama);
-                          $('[name="stasiun_edit"]').val(data.stasiun);
+                          $('[name="stasiun_edit"]').val(data.id_stasiun);
                           $('[name="password_edit"]').val(data.password);
                         });
                       }
@@ -117,6 +117,28 @@
                   }
                   function hapus(id) {
                     $('[name="id_hapus"]').val(id);
+                  }
+                  function tambah() {
+                    var username =  $("input[name=username]").val();
+                    var nama = $("input[name=nama]").val();
+                    var password = $("input[name=password]").val();
+                    if (username===""||nama===""||password==="") {
+                      element = document.getElementById('pesan_tambah');
+                      element.removeAttribute("style");
+                    } else {
+                      document.forms["tambah"].submit();
+                    }
+                  }
+                  function update() {
+                    var username =  $("input[name=username_edit]").val();
+                    var nama = $("input[name=nama_edit]").val();
+                    var password = $("input[name=password_edit]").val();
+                    if (username===""||nama===""||password==="") {
+                      element = document.getElementById('pesan_edit');
+                      element.removeAttribute("style");
+                    } else {
+                      document.forms["edit"].submit();
+                    }
                   }
                   </script>
 
@@ -129,7 +151,7 @@
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?= site_url("DataPetugas/insert"); ?>" method="post">
+                <form class="" id="tambah" action="<?= site_url("DataPetugas/insert"); ?>" method="post">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Petugas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -137,6 +159,9 @@
                     </button>
                   </div>
                   <div class="modal-body">
+                    <div id="pesan_tambah" class="alert alert-danger" style="display:none" role="alert">
+                      Harap isi semua data
+                    </div>
                     <div class="form-group row">
                       <label for="username" class="col-sm-2 col-form-label">Username</label>
                       <div class="col-sm-10">
@@ -153,11 +178,9 @@
                       <label for="stasiun" class="col-sm-2 col-form-label">Stasiun</label>
                       <div class="col-sm-10">
                         <select class="form-control" name="stasiun" id="stasiun">
-                          <option>Banyuwangi</option>
-                          <option>Jember</option>
-                          <option>Lumajang</option>
-                          <option>Probolinggo</option>
-                          <option>Pasuruan</option>
+                          <?php foreach ($stasiun as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -170,7 +193,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" onclick="tambah()" class="btn btn-primary">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -180,7 +203,7 @@
           <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?php echo site_url("DataPetugas/update") ?>" method="post">
+                <form class="" id="edit" action="<?php echo site_url("DataPetugas/update") ?>" method="post">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Data Petugas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -188,6 +211,9 @@
                     </button>
                   </div>
                   <div class="modal-body">
+                    <div id="pesan_edit" class="alert alert-danger" style="display:none" role="alert">
+                      Harap isi semua data
+                    </div>
                     <input type="hidden" name="id_edit" value="">
                     <div class="form-group row">
                       <label for="username" class="col-sm-2 col-form-label">Username</label>
@@ -205,11 +231,9 @@
                       <label for="stasiun" class="col-sm-2 col-form-label">Stasiun</label>
                       <div class="col-sm-10">
                         <select class="form-control" name="stasiun_edit" id="stasiun">
-                          <option>Banyuwangi</option>
-                          <option>Jember</option>
-                          <option>Lumajang</option>
-                          <option>Probolinggo</option>
-                          <option>Pasuruan</option>
+                          <?php foreach ($stasiun as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
+                          <?php endforeach; ?>
                         </select>
                       </div>
                     </div>
@@ -222,7 +246,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" onclick="update()" class="btn btn-primary">Simpan</button>
                   </div>
                 </form>
               </div>

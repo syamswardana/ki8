@@ -16,6 +16,10 @@ class Login extends CI_Controller {
 	{
 		$username = $this->input->post('username',TRUE);
     $password = $this->input->post('password',TRUE);
+		if ($username==null||password==null) {
+			echo $this->session->set_flashdata('msg','username/password tidak boleh kosong');
+			redirect('login');
+		}
     $validate = $this->Users_model->validate($username,$password);
     if($validate->num_rows() > 0){
         $data  = $validate->row_array();

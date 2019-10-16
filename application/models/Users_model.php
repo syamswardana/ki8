@@ -14,8 +14,11 @@ class Users_model extends CI_Model{
   }
   public function show_users()
   {
-    $this->db->where('status','petugas');
-    $result = $this->db->get('users');
+    $this->db->select('users.id, username, nama, sta.nama_stasiun as id_stasiun, password');
+    $this->db->from('users');
+    $this->db->join('stasiun as sta','sta.id=users.id_stasiun');
+    $this->db->where('users.status','petugas');
+    $result = $this->db->get();
     return $result;
   }
 
@@ -30,7 +33,7 @@ class Users_model extends CI_Model{
   {
     $this->db->set('username',$data["username"]);
     $this->db->set('nama',$data["nama"]);
-    $this->db->set('stasiun',$data["stasiun"]);
+    $this->db->set('id_stasiun',$data["stasiun"]);
     $this->db->set('password',$data["password"]);
     $this->db->where('id',$data["id"]);
     $this->db->update('users');

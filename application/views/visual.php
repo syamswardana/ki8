@@ -246,7 +246,7 @@
 			//Select a random mutation point
 			var mutationPoint = Math.floor(Math.random() * this.population.individuals[0].length);
 			var mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
-
+			// 1,2,3,4
 			//Flip values at the mutation point
 			while (mutationPoint == mutationPoint2) {
 				mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
