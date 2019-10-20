@@ -31,6 +31,9 @@
           <a class="nav-link" href="<?= site_url("DataStasiun") ?>"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="<?= site_url("DataRute") ?>"><span class="oi oi-map-marker"></span> Data Rute</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="<?= site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
         </li>
       </ul>
@@ -51,6 +54,9 @@
             </li>
             <li class="sidebar-list">
               <a class="" href="<?php echo site_url("DataStasiun") ?>"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
+            </li>
+            <li class="sidebar-list">
+              <a class="" href="<?php echo site_url("DataRute"); ?>"><span class="oi oi-map-marker"></span> Data Rute</a>
             </li>
             <li class="sidebar-list">
               <a class="" href="<?php echo site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
