@@ -30,4 +30,13 @@ class Rute_model extends CI_Model{
     $this->db->where('id',$id);
     $this->db->delete('rute');
   }
+  public function get_detail($id)
+  {
+    $this->db->select('*');
+    $this->db->from('detail_rute');
+    $this->db->join('stasiun','stasiun.id = detail_rute.id_stasiun');
+    $this->db->where('id_rute',$id);
+    $result = $this->db->get();
+    return $result;
+  }
 }

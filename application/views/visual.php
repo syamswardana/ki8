@@ -344,7 +344,8 @@
 			// console.log(barang);
 			var algoritma = new Genetik(kontainer,barang);
 			algoritma.start();
-			var fittest = algoritma.fittest.genes;
+			// var fittest = algoritma.fittest.genes;
+			var fittest = [0,1,2,3,4];
 			visual(fittest);
 			function visual(fittest) {
 
@@ -355,26 +356,32 @@
 				var sisapanjang = this.kontainer[0]*100 ;
 				var sisalebar = this.kontainer[1]*100 ;
 				var sisatinggi = this.kontainer[2]*100;
+				//merah, kuning, hijau, abu, biru
+				var warna = [0xFA000F,0xFCC419,0x36B14D,0x5C7CFA,0x868E96];
+				var lebarterpakai = 0;
 				//id,panjang,lebar,tinggi, berat
 				for (var i = 0; i < barang.length; i++) {
 					var brg = barang[fittest[i]];
-					if (brg[4]<kberat) {
-						if (brg[2]<sisalebar) {
-							if (brg[3]<ktinggi) {
-								if (brg[1]<sisapanjang) {
+					if (brg[4]<=kberat) {
+						if (brg[2]<=sisalebar) {
+							if (brg[3]<=ktinggi) {
+								if (brg[1]<=sisapanjang) {
 
 									var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-									var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+									// var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+									var material = new THREE.MeshBasicMaterial( { color: warna[i] } );
 									var cube = new THREE.Mesh( geometry, material );
 									//kontainer p : 1000, l : 300, t : 300
 									//position p,t,l
-									cube.position.set((sisapanjang/2)-(brg[1]/2),((ktinggi/2*-1)+(brg[3]/2)),(sisalebar/2)-(brg[2]/2));
+									cube.position.set((kpanjang/2)-(brg[1]/2),((ktinggi/2*-1)+(brg[3]/2)),150-lebarterpakai-(brg[2]/2));
 									scene.add( cube );
 									kberat-=brg[4];
+									lebarterpakai+=parseInt(brg[2]);
 									sisalebar-=brg[2];
 									sisatinggi-=brg[3];
 									sisapanjang-=brg[1];
-									console.log("normal");
+									// console.log(lebarterpakai);
+									// console.log(150-lebarterpakai-(brg[2]/2));
 
 								} //panjang
 							} //tinggi
@@ -383,7 +390,7 @@
 							//diatas
 							if (brg[2]<klebar&&brg[3]<sisatinggi) {
 								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var material = new THREE.MeshBasicMaterial( { color: warna[i] } );
 								var cube = new THREE.Mesh( geometry, material );
 								//kontainer p : 1000, l : 300, t : 300
 								//position p,t,l
@@ -395,11 +402,12 @@
 								//dibelakang
 							} else if (brg[2]<klebar&&brg[3]<ktinggi&&brg[1]<sisapanjang) {
 								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var material = new THREE.MeshBasicMaterial( { color: warna[i] } );
 								var cube = new THREE.Mesh( geometry, material );
+								lebarterpakai = 0;
 								//kontainer p : 1000, l : 300, t : 300
 								//position p,t,l
-								cube.position.set((sisapanjang/2)-(brg[1]/2),((ktinggi/2)-(brg[3]/2))*-1,(klebar/2)-(brg[2]/2));
+								cube.position.set((sisapanjang/2)-(brg[1]/2),((ktinggi/2)-(brg[3]/2))*-1,150-lebarterpakai-(brg[2]/2));
 								scene.add( cube );
 								kberat-=brg[4];
 								sisapanjang-=brg[1];

@@ -86,7 +86,7 @@
                     <tr>
                       <th scope="row"><?= $row->id ?></th>
                       <td>Rute <?= $row->nama_rute ?></td>
-                      <td> <button type="button" name="button" class="btn btn-info"  data-toggle="modal" data-target="#modalDetail">Detail Rute</button> </td>
+                      <td> <button type="button" name="button" class="btn btn-info"  data-toggle="modal" onclick="detail(<?= $row->id ?>)" data-target="#modalDetail">Detail Rute</button> </td>
                       <td>
                         <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row->id ?>)" data-target="#modalEdit">
                           Edit
@@ -136,6 +136,45 @@
                       document.forms["edit"].submit();
                     }
                   }
+                  function detail(id) {
+                    $.ajax({
+                      type : "GET",
+                      url : "<?php echo site_url("DataRute/get_detail_rute")?>",
+                      dataType : "JSON",
+                      data : {id:id},
+                      success: function(data){
+                        var i = 0;
+                        $.each(data,function(){
+                          var urutan = document.getElementById("urutan");
+                          var element = '<div class=\"form-group row\">'+
+                          '<label for=\"stasiun\" class=\"col-sm-4 col-form-label\">Urutan '+(i+1)+'</label>'+
+                          '<div class=\"col-sm-6\">'+
+                          '<select class=\"form-control\" id=\"'+data[i].id+'\" name=\"stasiun\" id=\"rute\">'+
+                          <?php foreach ($stasiun as $row ): ?>
+                          <?php echo '\'<option value="'.$row->id.'">'.$row->nama_stasiun.' ('.$row->kota. ')</option>\'+' ?>
+                          <?php endforeach; ?>
+                          '</select>'+
+                          '</div>'+
+                          '<div class=\"col-sm-2\">'+
+                          '<button type=\"button\" name=\"button\" class=\"btn btn-danger rounded-circle\">X</button>'+
+                          '</div>'+
+                          '</div>';
+                          urutan.innerHTML += element;
+                          console.log(data[i].id);
+                          $("#"+data[i].id).val("6");
+                          i++;
+                        });
+                      },
+
+                    });
+                    $.ajax({
+                      type: ""
+                    });
+                  }
+                  $(document).on('hide.bs.modal','#modalDetail', function () {
+                    var urutan = document.getElementById("urutan");
+                    urutan.innerHTML = null;
+                  });
                   </script>
                 </tbody>
               </table>
@@ -159,15 +198,20 @@
                     </div>
                     <button type="button" class="btn btn-primary" name="button">Tambah Kolom</button>
                     <hr>
-                    <div class="form-group row">
-                      <label for="stasiun" class="col-sm-4 col-form-label">Urutan 1</label>
-                      <div class="col-sm-8">
-                        <select class="form-control" name="stasiun" id="rute">
-                          <?php foreach ($stasiun as $row ): ?>
-                            <option value="<?= $row->id; ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
-                          <?php endforeach; ?>
-                        </select>
-                      </div>
+                    <div id="urutan">
+                      <!-- <div class="form-group row">
+                        <label for="stasiun" class="col-sm-4 col-form-label">Urutan 1</label>
+                        <div class="col-sm-6">
+                          <select class="form-control" name="stasiun" id="rute">
+                            <?php foreach ($stasiun as $row ): ?>
+                              <option value="<?= $row->id; ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-sm-2">
+                          <button type="button" name="button" class="btn btn-danger rounded-circle">X</button>
+                        </div>
+                      </div> -->
                     </div>
                   </div>
                   <div class="modal-footer">
