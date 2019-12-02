@@ -61,21 +61,37 @@ class DataRute extends CI_Controller {
 		// var_dump($id);
 		redirect('DataRute');
 	}
-	public function get_detail_rute()
+	public function getDetailRute()
+	{
+		$id = $this->input->get('id');
+
+		echo json_encode($data);
+
+	}
+	public function detailRute()
 	{
 		$id = $this->input->get('id');
 		$detail_rute = $this->Rute_model->get_detail($id)->result();
 		// var_dump($detail_rute);
-		$data = array();
+		$urutan = array();
 		foreach ($detail_rute as $row) {
-			$data[] = array (
+			$urutan[] = array (
 				'id' => $row->id,
 				'id_stasiun' => $row->id_stasiun,
 				'nama_stasiun' => $row->nama_stasiun,
 				'kota_stasiun' => $row->kota
 			);
 		}
-		echo json_encode($data);
-
+		$data['id'] = $id;
+		$data['urutan'] = $urutan;
+		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
+		$this->load->view('view_detail_rute_admin',$data);
+	}
+	public function insertDetailRute()
+	{
+		$stasiun = $this->input->post('stasiun');
+		$rute = $this->input->post('id_rute');
+		$this->Rute_model->insert_detail_rute($stasiun, $rute);
+		redirect('DataRute/detailRute?id='.$rute);
 	}
 }

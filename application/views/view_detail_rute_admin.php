@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <title>Data Rute</title>
+  <title>Detail Rute</title>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/popper.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-ui.js"></script>
@@ -66,36 +66,37 @@
         <div class="col-md-10">
           <!-- Button trigger modal -->
           <div class="container" id="main">
+            <h3><?="Detail rute ".$id ?></h3>
             <br>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambah">
-              Tambah Rute
+              Tambah Stasiun
             </button>
             <br><br>
             <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">ID Rute</th>
-                    <th scope="col">Nama Rute</th>
-                    <th scope="col">Detail Rute</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Urutan Stasiun</th>
+                    <th scope="col">Nama Stasiun</th>
+                    <th scope="col">Control</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($rute as $row): ?>
+                  <?php $nomer = 1; ?>
+                  <?php foreach ($urutan as $row): ?>
                     <tr>
-                      <th scope="row"><?= $row->id ?></th>
-                      <td>Rute <?= $row->nama_rute ?></td>
-                      <td><a class="btn btn-primary" href="<?= site_url("/DataRute/detailRute?id=".$row->id) ?>" role="button">Detail Rute</a></td>
+                      <th scope="row"><?= $nomer ?></th>
+                      <td><?= $row['nama_stasiun'] ?></td>
                       <td>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row->id ?>)" data-target="#modalEdit">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row['id'] ?>)" data-target="#modalEdit">
                           Edit
                         </button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" onclick="hapus(<?= $row->id ?>)" data-target="#modalHapus">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" onclick="hapus(<?= $row['id'] ?>)" data-target="#modalHapus">
                           Hapus
                         </button>
                       </td>
                     </tr>
+                  <?php $nomer+=1; ?>
                   <?php endforeach; ?>
 
                   <script type="text/javascript">
@@ -119,13 +120,16 @@
                     $('[name="id_hapus"]').val(id);
                   }
                   function tambah() {
-                    let rute =  $("input[name=rute]").val();
-                    if (rute==="") {
-                      element = document.getElementById('pesan_tambah');
-                      element.removeAttribute("style");
-                    } else {
+                    // let rute =  $("input[name=rute]").val();
+                    // if (rute==="") {
+                    //   element = document.getElementById('pesan_tambah');
+                    //   element.removeAttribute("style");
+                    // } else {
+                    //   document.forms["tambah"].submit();
+                    // }
                       document.forms["tambah"].submit();
-                    }
+
+
                   }
                   function update() {
                     let rute =  $("input[name=rute_edit]").val();
@@ -146,11 +150,52 @@
             </div><!--table-responsive-->
           </div>
 
-          <!-- Modal tambah rute-->
+          <!-- Modal detail-->
+          <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <form class="" id="detail" action="<?php echo site_url('DataStasiun/insert') ?>" method="post">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">List stasiun dalam rute</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="pesan_tambah" class="alert alert-danger" style="display:none" role="alert">
+                      Harap isi semua data
+                    </div>
+                    <button type="button" class="btn btn-primary" name="button">Tambah Kolom</button>
+                    <hr>
+                    <div id="urutan">
+                      <!-- <div class="form-group row">
+                        <label for="stasiun" class="col-sm-4 col-form-label">Urutan 1</label>
+                        <div class="col-sm-6">
+                          <select class="form-control" name="stasiun" id="rute">
+                            <?php foreach ($stasiun as $row ): ?>
+                              <option value="<?= $row->id; ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
+                            <?php endforeach; ?>
+                          </select>
+                        </div>
+                        <div class="col-sm-2">
+                          <button type="button" name="button" class="btn btn-danger rounded-circle">X</button>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" onclick="tambah()" class="btn btn-primary">Simpan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div> <!--modal detail-->
+          <!-- Modal tambah stasiun-->
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" id="tambah" action="<?php echo site_url('DataRute/insert') ?>" method="post">
+                <form class="" id="tambah" action="<?php echo site_url('DataRute/insertDetailRute') ?>" method="post">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Rute</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -162,15 +207,20 @@
                       Harap isi semua data
                     </div>
                     <div class="form-group row">
-                      <label for="rute" class="col-sm-4 col-form-label">Nama Rute</label>
+                      <label for="rute" class="col-sm-4 col-form-label">Nama Stasiun</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" name="rute" id="rute" placeholder="Masukan nama rute">
+                        <select class="custom-select" name="stasiun">
+                          <?php foreach ($stasiun as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->nama_stasiun." (".$row->kota.")" ?></option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
+                    <input type="hidden" name="id_rute" value="<?= $id ?>">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="button" onclick="tambah()" class="btn btn-primary">Simpan</button>
+                    <button type="button" onclick="tambah()" class="btn btn-primary">Tambah</button>
                   </div>
                 </form>
               </div>

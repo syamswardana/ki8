@@ -36,7 +36,33 @@ class Rute_model extends CI_Model{
     $this->db->from('detail_rute');
     $this->db->join('stasiun','stasiun.id = detail_rute.id_stasiun');
     $this->db->where('id_rute',$id);
+    $this->db->order_by('urutan');
     $result = $this->db->get();
     return $result;
+  }
+  public function insert_detail_rute($stasiun, $rute)
+  {
+    $this->db->select('urutan');
+    $this->db->from('detail_rute');
+    $this->db->where('id_rute',$rute);
+    $this->db->order_by('urutan','DESC');
+    $terbesar = NULL;
+    try {
+      $terbesar = $this->db->get()->row()->urutan;
+      $data = array(
+        'id_rute' => $rute,
+        'id_stasiun' => $stasiun,
+        'urutan' => ($terbesar+1)
+      );
+      $this->db->insert('detail_rute', $data);
+
+    } catch (\Exception $e) {
+      $data = array(
+        'id_rute' => $rute,
+        'id_stasiun' => $stasiun,
+        'urutan' => 0
+      );
+      $this->db->insert('detail_rute', $data);
+    }
   }
 }
