@@ -88,7 +88,7 @@
                       <th scope="row"><?= $nomer ?></th>
                       <td><?= $row['nama_stasiun'] ?></td>
                       <td>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row['id'] ?>)" data-target="#modalEdit">
+                        <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row['id'].",".$row['id_stasiun'] ?>)" data-target="#modalEdit">
                           Edit
                         </button>
                         <button type="button" class="btn btn-danger" data-toggle="modal" onclick="hapus(<?= $row['id'] ?>)" data-target="#modalHapus">
@@ -100,21 +100,9 @@
                   <?php endforeach; ?>
 
                   <script type="text/javascript">
-                  function edit(id) {
-                    $.ajax({
-                      type : "GET",
-                      url  : "<?php echo site_url("DataRute/get_rute")?>",
-                      dataType : "JSON",
-                      data : {id:id},
-                      success: function(data){
-                        $.each(data,function(){
-                          // $('#ModalaEdit').modal('show');
-                          console.log(data);
-                          $('[name="id_edit"]').val(data.id);
-                          $('[name="rute_edit"]').val(data.rute);
-                        });
-                      }
-                    });
+                  function edit(id,id_stasiun) {
+                    $('[name="id_edit"]').val(id);
+                    $('[name="stasiun_edit"]').val(id_stasiun);
                   }
                   function hapus(id) {
                     $('[name="id_hapus"]').val(id);
@@ -132,13 +120,13 @@
 
                   }
                   function update() {
-                    let rute =  $("input[name=rute_edit]").val();
-                    if (rute==="") {
-                      element = document.getElementById('pesan_edit');
-                      element.removeAttribute("style");
-                    } else {
-                      document.forms["edit"].submit();
-                    }
+                    // let rute =  $("input[name=rute_edit]").val();
+                    // if (rute==="") {
+                    //   element = document.getElementById('pesan_edit');
+                    //   element.removeAttribute("style");
+                    // } else {
+                    // }
+                    document.forms["edit"].submit();
                   }
                   $(document).on('hide.bs.modal','#modalDetail', function () {
                     var urutan = document.getElementById("urutan");
@@ -150,47 +138,6 @@
             </div><!--table-responsive-->
           </div>
 
-          <!-- Modal detail-->
-          <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <form class="" id="detail" action="<?php echo site_url('DataStasiun/insert') ?>" method="post">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">List stasiun dalam rute</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="pesan_tambah" class="alert alert-danger" style="display:none" role="alert">
-                      Harap isi semua data
-                    </div>
-                    <button type="button" class="btn btn-primary" name="button">Tambah Kolom</button>
-                    <hr>
-                    <div id="urutan">
-                      <!-- <div class="form-group row">
-                        <label for="stasiun" class="col-sm-4 col-form-label">Urutan 1</label>
-                        <div class="col-sm-6">
-                          <select class="form-control" name="stasiun" id="rute">
-                            <?php foreach ($stasiun as $row ): ?>
-                              <option value="<?= $row->id; ?>"><?= $row->nama_stasiun ?> (<?= $row->kota ?>)</option>
-                            <?php endforeach; ?>
-                          </select>
-                        </div>
-                        <div class="col-sm-2">
-                          <button type="button" name="button" class="btn btn-danger rounded-circle">X</button>
-                        </div>
-                      </div> -->
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="button" onclick="tambah()" class="btn btn-primary">Simpan</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div> <!--modal detail-->
           <!-- Modal tambah stasiun-->
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -230,7 +177,7 @@
           <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" id="edit" action="<?php echo site_url('DataRute/update') ?>" method="post">
+                <form class="" id="edit" action="<?php echo site_url('DataRute/updateDetail') ?>" method="post">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Rute</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -242,17 +189,17 @@
                       Harap isi semua data
                     </div>
                     <div class="form-group row">
-                      <label for="id_stasiun" class="col-sm-4 col-form-label">ID </label>
+                      <label for="rute" class="col-sm-4 col-form-label">Nama Stasiun</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" name="id_edit" id="id_edit" readonly>
+                        <select class="custom-select" name="stasiun_edit">
+                          <?php foreach ($stasiun as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->nama_stasiun." (".$row->kota.")" ?></option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
-                    <div class="form-group row">
-                      <label for="rute_edit" class="col-sm-4 col-form-label">Nama Rute</label>
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" name="rute_edit" id="rute" placeholder="Masukan Rute">
-                      </div>
-                    </div>
+                    <input type="hidden" name="id_edit" value="">
+                    <input type="hidden" name="id_rute" value="<?= $id ?>">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -266,8 +213,9 @@
           <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?php echo site_url('DataRute/delete') ?>" method="get">
+                <form class="" action="<?php echo site_url('DataRute/deleteDetail') ?>" method="get">
                   <input type="hidden" name="id_hapus" value="">
+                  <input type="hidden" name="id_rute" value="<?= $id ?>">
                   <div class="modal-body">
                     Anda yakin ingin menghapus?
                   </div>

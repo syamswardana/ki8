@@ -85,6 +85,7 @@ class DataRute extends CI_Controller {
 		$data['id'] = $id;
 		$data['urutan'] = $urutan;
 		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
+		// var_dump($data['urutan']);
 		$this->load->view('view_detail_rute_admin',$data);
 	}
 	public function insertDetailRute()
@@ -92,6 +93,22 @@ class DataRute extends CI_Controller {
 		$stasiun = $this->input->post('stasiun');
 		$rute = $this->input->post('id_rute');
 		$this->Rute_model->insert_detail_rute($stasiun, $rute);
+		redirect('DataRute/detailRute?id='.$rute);
+	}
+	public function updateDetail()
+	{
+		$id = $this->input->post('id_edit');
+		$id_stasiun = $this->input->post('stasiun_edit');
+		$rute = $this->input->post('id_rute');
+		// var_dump($id_stasiun);
+		$this->Rute_model->update_detail_rute($id,$id_stasiun);
+		redirect('DataRute/detailRute?id='.$rute);
+	}
+	public function deleteDetail()
+	{
+		$id = $this->input->get('id_hapus');
+		$rute = $this->input->get('id_rute');
+		$this->Rute_model->delete_detail($id);
 		redirect('DataRute/detailRute?id='.$rute);
 	}
 }

@@ -32,7 +32,7 @@ class Rute_model extends CI_Model{
   }
   public function get_detail($id)
   {
-    $this->db->select('*');
+    $this->db->select('detail_rute.id,detail_rute.id_stasiun,stasiun.nama_stasiun,stasiun.kota');
     $this->db->from('detail_rute');
     $this->db->join('stasiun','stasiun.id = detail_rute.id_stasiun');
     $this->db->where('id_rute',$id);
@@ -64,5 +64,16 @@ class Rute_model extends CI_Model{
       );
       $this->db->insert('detail_rute', $data);
     }
+  }
+  public function update_detail_rute($id,$id_stasiun)
+  {
+    $this->db->set('id_stasiun',$id_stasiun);
+    $this->db->where('id',$id);
+    $this->db->update('detail_rute');
+  }
+  public function delete_detail($id)
+  {
+    $this->db->where('id',$id);
+    $this->db->delete('detail_rute');
   }
 }
