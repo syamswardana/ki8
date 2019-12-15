@@ -4,6 +4,8 @@ class Stasiun_model extends CI_Model{
 
   public function show_stasiun()
   {
+
+    $this->db->where('deleted_at',null);
     $result = $this->db->get('stasiun');
     return $result;
   }
@@ -36,6 +38,7 @@ class Stasiun_model extends CI_Model{
   public function delete_stasiun($id)
   {
     $this->db->where('id',$id);
-    $this->db->delete('stasiun');
+    $this->db->set('deleted_at','now()',false);
+    $this->db->update('stasiun');
   }
 }

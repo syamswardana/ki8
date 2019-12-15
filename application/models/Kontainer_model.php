@@ -8,6 +8,7 @@ class Kontainer_model extends CI_Model{
     $this->db->select('kontainer.id,rute.nama_rute as rute, panjang, lebar, tinggi, berat_maksimal,tanggal_digunakan');
     $this->db->from('kontainer');
     $this->db->join('rute', 'rute.id = kontainer.rute_id');
+    $this->db->where('kontainer.deleted_at',null);
     $result = $this->db->get();
     return $result;
   }
@@ -44,6 +45,7 @@ class Kontainer_model extends CI_Model{
   public function delete_kontainer($id)
   {
     $this->db->where('id',$id);
-    $this->db->delete('kontainer');
+    $this->db->set('deleted_at','now()',false);
+    $this->db->update('kontainer');
   }
 }

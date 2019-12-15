@@ -11,6 +11,7 @@ class Barang_model extends CI_Model{
     $this->db->join('stasiun as tuj','tuj.id = barang.tujuan');
     $this->db->join('users','users.id = barang.user_id');
     $this->db->where('users.id',$this->session->userdata('id'));
+    $this->db->where('barang.deleted_at',null);
     $result = $this->db->get();
     return $result;
   }
@@ -41,6 +42,7 @@ class Barang_model extends CI_Model{
   public function delete_barang($id)
   {
     $this->db->where('id',$id);
-    $this->db->delete('barang');
+    $this->db->set('deleted_at','now()',false);
+    $this->db->update('barang');
   }
 }

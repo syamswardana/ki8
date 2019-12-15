@@ -26,7 +26,7 @@ class DataPetugas extends CI_Controller {
 		$data = array(
 			'username'=>$this->input->post('username',TRUE),
 			'nama'=>$this->input->post('nama',TRUE),
-			'stasiun'=>$this->input->post('stasiun',TRUE),
+			'id_stasiun'=>$this->input->post('stasiun',TRUE),
 			'password'=> $this->input->post('password',TRUE),
 		);
 		$this->Users_model->insert_user($data);

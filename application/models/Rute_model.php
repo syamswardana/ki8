@@ -4,6 +4,7 @@ class Rute_model extends CI_Model{
 
   public function show_rute()
   {
+    $this->db->where('deleted_at',null);
     $result = $this->db->get('rute');
     return $result;
   }
@@ -28,7 +29,8 @@ class Rute_model extends CI_Model{
   public function delete_rute($id)
   {
     $this->db->where('id',$id);
-    $this->db->delete('rute');
+    $this->db->set('deleted_at','now()',false);
+    $this->db->update('rute');
   }
   public function get_detail($id)
   {

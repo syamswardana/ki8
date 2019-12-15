@@ -18,6 +18,7 @@ class Users_model extends CI_Model{
     $this->db->from('users');
     $this->db->join('stasiun as sta','sta.id=users.id_stasiun');
     $this->db->where('users.status','petugas');
+    $this->db->where('users.deleted_at',null);
     $result = $this->db->get();
     return $result;
   }
@@ -41,6 +42,7 @@ class Users_model extends CI_Model{
   public function delete_user($id)
   {
     $this->db->where('id',$id);
-    $this->db->delete('users');
+    $this->db->set('deleted_at','now()',false);
+    $this->db->update('users');
   }
 }
