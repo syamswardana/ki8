@@ -68,6 +68,7 @@ nav {
 }
 #sidebar{
   visibility: visible;
+  height: auto;
 }
 
 #main {

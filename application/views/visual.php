@@ -4,12 +4,37 @@
 	<style>
 	body { margin: 0; }
 	canvas { width: 100%; height: 100% }
+	.info {
+		position:fixed;
+		height:400px;
+		width:220px;padding: 10px;
+		font-size: 4px;
+		background-color:rgb(255, 255, 255);
+		/* opacity:40%; */
+		top: 50%;
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+	}
+	.icon {
+		font-size: 26px;
+	}
 	</style>
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/open-iconic-bootstrap.css">
 	<script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="<?= base_url(); ?>assets/js/three.js"></script>
 	<script type="text/javascript" src="<?= base_url(); ?>assets/js/OrbitControls.js"></script>
+	<script type="text/javascript" src="<?= base_url(); ?>assets/js/dat.gui.min.js"></script>
 </head>
 <body>
+	<div class="info">
+		<h4 style="font-size: 20px; margin:10px;text-align:center;">Info</h4>
+		<table>
+			<tbody id="isiInfo">
+			<!-- isi -->
+			</tbody>
+		</table>
+		</div>
+	</div>
 	<script>
 
 	var scene = new THREE.Scene();
@@ -20,6 +45,9 @@
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
+
+	//grub barang
+	var grubBarang = new THREE.Object3D();
 
 	//kontainer
 	var kontainer = [10,3,3,400];
@@ -84,53 +112,107 @@
 			var klebar = this.kontainer[1]*100 ;
 			var ktinggi = this.kontainer[2]*100;
 			var kberat = this.kontainer[3];
-			var sisapanjang = this.kontainer[0]*100 ;
-			var sisalebar = this.kontainer[1]*100 ;
-			var sisatinggi = this.kontainer[2]*100;
+			var lebarterpakai = 0;
+			var tinggiterpakai = 0;
+			var panjangterpakai = 0;
+			var layerPanjang = 0;
+			var lebar= 0 ;
+			var panjang = 0 ;
 			var barangmasuk = [];
-			// console.log("genes : "+this.genes);
+			//merah, kuning, hijau, biru, abu
+			var warna = [0xFA000F,0xFCC419,0x36B14D,0x5C7CFA,0x868E96];
 			//id,panjang,lebar,tinggi, berat
 			for (var i = 0; i < this.barang.length; i++) {
-				var brg = this.barang[this.genes[i]];
-				if (brg[4]<kberat) {
-					if (brg[2]<sisalebar) {
-						if (brg[3]<sisatinggi) {
-							if (brg[1]<sisapanjang) {
-								barangmasuk.push(this.genes[i]);
-								kberat-=brg[4];
-								sisalebar-=brg[2];
-								sisatinggi-=brg[3];
-								sisapanjang-=brg[1];
-							} //panjang
-						} //tinggi
-					} //lebar
-					else {
-						if (brg[2]<klebar&&brg[3]<sisatinggi) {
-							barangmasuk.push(this.genes[i]);
-							kberat-=brg[4];
-							sisatinggi-=brg[3];
-						} else if (brg[2]<klebar&&brg[3]<ktinggi&&brg[1]<sisapanjang) {
-							barangmasuk.push(this.genes[i]);
-							kberat-=brg[4];
-							sisapanjang-=brg[1];
-							sisatinggi=ktinggi-brg[3];
-							sisalebar=klebar-brg[2];
-
-						}
+				var brg = this.barang[i];
+				var berhenti = false;
+				for (var l = 0; l < barangmasuk.length; l++) {
+					if (brg[0]==barangmasuk[l]) {
+						berhenti = true;
 					}
-				} //berat
+				}//for barang sudah ditata
+				if (berhenti == true) {
+					continue;
+				}
+				if (brg[4]<=kberat) {
+					if (brg[1]<=kpanjang-layerPanjang) {
+						if (brg[2]<=klebar-lebarterpakai&&brg[3]<=ktinggi) {
+							barangmasuk.push(brg[0]);
+							//kontainer p : 1000, l : 300, t : 300
+							//position p,t,l
+							kberat-=brg[4];
+							if (brg[1]>panjangterpakai) {
+								panjangterpakai=brg[1];
+							}
+							if (tinggiterpakai==0) {
+								tinggiterpakai=brg[3];
+								lebar = brg[2];
+								panjang = brg[1];
+							} else {
+								tinggiterpakai+=brg[3];
+							}
+							for (var j = 0; j < this.barang.length; j++) {
+								var brgLanjutan = this.barang[j];
+								let stop = false;
+								for (var k = 0; k < barangmasuk.length; k++) {
+									if (brgLanjutan[0]==barangmasuk[k]) {
+										stop = true;
+									}
+								}
+								if (stop==true) {
+									continue;
+								}
+								if (brgLanjutan[2]<=lebar&&brgLanjutan[1]<=panjang&&brgLanjutan[3]<=ktinggi-tinggiterpakai) {
+									barangmasuk.push(brgLanjutan[0]);
+									//kontainer p : 1000, l : 300, t : 300
+									//position p,t,l
+									kberat-=brgLanjutan[4];
+									tinggiterpakai+=brgLanjutan[3];
+									panjang = brgLanjutan[1];//
+									lebar = brgLanjutan[2];
+								} else {
+									// console.log("barang p,l,t : "+brgLanjutan[1]+", "+brgLanjutan[2]+", "+brgLanjutan[3]);
+									// console.log("alas p,l,t : "+panjang+", "+lebar+", "+(ktinggi-tinggiterpakai));
+								}
+							}
+							lebarterpakai+=brg[2];
+							tinggiterpakai=0;
+						}//lebar dan tinggi
+						else {
+							layerPanjang+=panjangterpakai;
+							panjangterpakai = 0;
+							lebarterpakai = 0;
+							tinggiterpakai = 0;
+							barangmasuk.push(brg[0]);
+							kberat-=brg[4];
+							lebarterpakai+=parseInt(brg[2]);
+							if (brg[1]>panjangterpakai) {
+								panjangterpakai+=brg[1];
+							}
+							tinggiterpakai+=brg[3];
+							lebar = brg[2];
+							panjang = brg[1];
+						}
+					}//panjang
+				}
 			}
-			// console.log("barang masuk : " +barangmasuk);
 			//hitung volume barang/volume kontainer * 100%
 			var vol_total_barang = 0
 			var vol_kontainer = kpanjang*klebar*ktinggi;
+			console.log(barangmasuk);
 			for (var i = 0; i < barangmasuk.length; i++) {
-				var vol_barang = this.barang[barangmasuk[i]][1]*this.barang[barangmasuk[i]][2]*this.barang[barangmasuk[i]][3];
+				 var brg;
+				for (var j = 0; j < this.barang.length; j++) {
+					if (barangmasuk[i]==this.barang[j][0]) {
+						brg = this.barang[i];
+					}
+				}
+				var vol_barang = brg[1]*brg[2]*brg[3];
 				vol_total_barang+=vol_barang;
 			}
 			this.fitness = (vol_total_barang/vol_kontainer)*100;
 			// console.log(this.fitness);
-		}
+
+		}//calcFitness
 
 	}
 
@@ -379,15 +461,29 @@
 							if (brg[2]<=klebar-lebarterpakai&&brg[3]<=ktinggi) {
 								barangmasuk.push(brg[0]);
 								//buat objek
+								var color = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
 								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var material = new THREE.MeshBasicMaterial( {
+									color: color,
+									transparent: true,
+									opacity: 1
+								} );
 								// var material = new THREE.MeshBasicMaterial( { color: warna[barangmasuk.length-1] } );
 								var cube = new THREE.Mesh( geometry, material );
 								//kontainer p : 1000, l : 300, t : 300
 								//position p,t,l
 								cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-lebarterpakai-(brg[2]/2));
-								scene.add( cube );
+								grubBarang.add( cube );
 								kberat-=brg[4];
+
+								//add info
+								var element = $("#isiInfo");
+								element.append("<tr>");
+								element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
+								element.append("<td><span>id : "+brg[0]+"</span></td>");
+								element.append("<td>-> "+brg[1]+"x"+brg[2]+"x"+brg[3]+"</td>");
+								element.append("</tr>");
+
 								if (brg[1]>panjangterpakai) {
 									panjangterpakai=brg[1];
 								}
@@ -412,22 +508,35 @@
 									if (brgLanjutan[2]<=lebar&&brgLanjutan[1]<=panjang&&brgLanjutan[3]<=ktinggi-tinggiterpakai) {
 										barangmasuk.push(brgLanjutan[0]);
 										//buat objek
+										var color = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
 										var geometry = new THREE.BoxGeometry( brgLanjutan[1], brgLanjutan[3], brgLanjutan[2]);
-										var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+										var material = new THREE.MeshBasicMaterial( {
+											color: color,
+											transparent: true,
+      								opacity: 1
+										} );
 										// var material = new THREE.MeshBasicMaterial( { color: warna[barangmasuk.length-1] } );
 										var cube = new THREE.Mesh( geometry, material );
 										//kontainer p : 1000, l : 300, t : 300
 										//position p,t,l
 										cube.position.set((kpanjang/2)-(brgLanjutan[1]/2)-layerPanjang,(((ktinggi/2)*-1)+(brgLanjutan[3]/2)+tinggiterpakai),150-(brgLanjutan[2]/2)-lebarterpakai);
-										scene.add( cube );
+										grubBarang.add( cube );
 										kberat-=brgLanjutan[4];
 										tinggiterpakai+=brgLanjutan[3];
 										panjang = brgLanjutan[1];//
 										lebar = brgLanjutan[2];
+
+										//add info
+										var element = $("#isiInfo");
+										element.append("<tr>");
+										element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
+										element.append("<td><span>id : "+brgLanjutan[0]+"</span></td>");
+										element.append("<td>-> "+brgLanjutan[1]+"x"+brgLanjutan[1]+"x"+brgLanjutan[1]+"</td>");
+										element.append("</tr>");
+
 									} else {
 										// console.log("barang p,l,t : "+brgLanjutan[1]+", "+brgLanjutan[2]+", "+brgLanjutan[3]);
 										// console.log("alas p,l,t : "+panjang+", "+lebar+", "+(ktinggi-tinggiterpakai));
-
 									}
 								}
 								lebarterpakai+=brg[2];
@@ -440,14 +549,19 @@
 								tinggiterpakai = 0;
 								barangmasuk.push(brg[0]);
 								//buat objek
+								var color = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
 								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff } );
+								var material = new THREE.MeshBasicMaterial( {
+									color: color,
+									transparent: true,
+									opacity: 1
+								} );
 								// var material = new THREE.MeshBasicMaterial( { color: warna[barangmasuk.length-1] } );
 								var cube = new THREE.Mesh( geometry, material );
 								//kontainer p : 1000, l : 300, t : 300
 								//position p,t,l
 								cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-(brg[2]/2));
-								scene.add( cube );
+								grubBarang.add( cube );
 								kberat-=brg[4];
 								lebarterpakai+=parseInt(brg[2]);
 								if (brg[1]>panjangterpakai) {
@@ -456,23 +570,49 @@
 								tinggiterpakai+=brg[3];
 								lebar = brg[2];
 								panjang = brg[1];
+
+								//add info
+								var element = $("#isiInfo");
+								element.append("<tr>");
+								element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
+								element.append("<td><span>id : "+brg[0]+"</span></td>");
+								element.append("<td>-> "+brg[1]+"x"+brg[1]+"x"+brg[1]+"</td>");
+								element.append("</tr>");
+
 							}
 						}//panjang
 					}
 				}
-			}
+				scene.add(grubBarang);
+				render();
+			}//visual
 		}//success
 	});
 
-	// var geometry = new THREE.BoxGeometry( 50, 70, 40);
-	// var material = new THREE.MeshBasicMaterial( { color: 0x00fa9a } );
-	// var cube = new THREE.Mesh( geometry, material );
-	// //kontainer p : 1000, l : 300, t : 300
-	// //position p,t,l
-	// cube.position.set(475,-115,130);
-	// scene.add( cube );
 
+	//controller
+	var FizzyText = function() {
+		this.wireframe = false;
+		this.transparent = 0.5;
+	};
 
+	window.onload = function() {
+		var text = new FizzyText();
+		var gui = new dat.GUI();
+		gui.add(text, 'wireframe');
+		gui.add(text, 'transparent', 0, 1).onChange(val => {
+  	setOpacity(grubBarang, val);
+	});
+	};
+
+	function setOpacity(obj, opacity) {
+  obj.traverse(child => {
+    if (child instanceof THREE.Mesh) {
+      child.material.opacity = opacity;
+			render();
+    }
+  });
+}
 
 	//OrbitControls
 	var controls;
