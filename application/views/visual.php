@@ -556,7 +556,7 @@
 	//controller
 	var FizzyText = function() {
 		this.wireframe = false;
-		this.transparent = 0.5;
+		this.transparent = 1.0;
 	};
 
 	window.onload = function() {
