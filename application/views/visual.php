@@ -182,15 +182,6 @@
 							panjangterpakai = 0;
 							lebarterpakai = 0;
 							tinggiterpakai = 0;
-							barangmasuk.push(brg[0]);
-							kberat-=brg[4];
-							lebarterpakai+=parseInt(brg[2]);
-							if (brg[1]>panjangterpakai) {
-								panjangterpakai+=brg[1];
-							}
-							tinggiterpakai+=brg[3];
-							lebar = brg[2];
-							panjang = brg[1];
 						}
 					}//panjang
 				}
@@ -439,7 +430,7 @@
 				var tinggiterpakai = 0;
 				var panjangterpakai = 0;
 				var layerPanjang = 0;
-				var lebar= 0 ;
+				var lebar = 0 ;
 				var panjang = 0 ;
 				var barangmasuk = [];
 				//merah, kuning, hijau, biru, abu
@@ -456,7 +447,7 @@
 					if (berhenti == true) {
 						continue;
 					}
-					if (brg[4]<=kberat) {
+					if (brg[4]<=kberat) { //tanya
 						if (brg[1]<=kpanjang-layerPanjang) {
 							if (brg[2]<=klebar-lebarterpakai&&brg[3]<=ktinggi) {
 								barangmasuk.push(brg[0]);
@@ -475,7 +466,7 @@
 								cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-lebarterpakai-(brg[2]/2));
 								grubBarang.add( cube );
 								kberat-=brg[4];
-
+								//lihat lagi
 								//add info
 								var element = $("#isiInfo");
 								element.append("<tr>");
@@ -483,6 +474,7 @@
 								element.append("<td><span>id : "+brg[0]+"</span></td>");
 								element.append("<td>-> "+brg[1]+"x"+brg[2]+"x"+brg[3]+"</td>");
 								element.append("</tr>");
+								console.log("alas");
 
 								if (brg[1]>panjangterpakai) {
 									panjangterpakai=brg[1];
@@ -494,7 +486,7 @@
 								} else {
 									tinggiterpakai+=brg[3];
 								}
-								for (var j = 0; j < barang.length; j++) {
+								for (var j = 0; j < barang.length; j++) { //for brg atas
 									var brgLanjutan = barang[fittest[j]];
 									let stop = false;
 									for (var k = 0; k < barangmasuk.length; k++) {
@@ -525,7 +517,8 @@
 										tinggiterpakai+=brgLanjutan[3];
 										panjang = brgLanjutan[1];//
 										lebar = brgLanjutan[2];
-
+										console.log("tumpuk");
+										console.log(tinggiterpakai);
 										//add info
 										var element = $("#isiInfo");
 										element.append("<tr>");
@@ -538,9 +531,10 @@
 										// console.log("barang p,l,t : "+brgLanjutan[1]+", "+brgLanjutan[2]+", "+brgLanjutan[3]);
 										// console.log("alas p,l,t : "+panjang+", "+lebar+", "+(ktinggi-tinggiterpakai));
 									}
-								}
+								} // for brg atas
 								lebarterpakai+=brg[2];
 								tinggiterpakai=0;
+								console.log("tinggi"+tinggiterpakai);
 							}//lebar dan tinggi
 							else {
 								layerPanjang+=panjangterpakai;
@@ -548,37 +542,6 @@
 								lebarterpakai = 0;
 								tinggiterpakai = 0;
 								barangmasuk.push(brg[0]);
-								//buat objek
-								var color = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
-								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( {
-									color: color,
-									transparent: true,
-									opacity: 1
-								} );
-								// var material = new THREE.MeshBasicMaterial( { color: warna[barangmasuk.length-1] } );
-								var cube = new THREE.Mesh( geometry, material );
-								//kontainer p : 1000, l : 300, t : 300
-								//position p,t,l
-								cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-(brg[2]/2));
-								grubBarang.add( cube );
-								kberat-=brg[4];
-								lebarterpakai+=parseInt(brg[2]);
-								if (brg[1]>panjangterpakai) {
-									panjangterpakai+=brg[1];
-								}
-								tinggiterpakai+=brg[3];
-								lebar = brg[2];
-								panjang = brg[1];
-
-								//add info
-								var element = $("#isiInfo");
-								element.append("<tr>");
-								element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
-								element.append("<td><span>id : "+brg[0]+"</span></td>");
-								element.append("<td>-> "+brg[1]+"x"+brg[1]+"x"+brg[1]+"</td>");
-								element.append("</tr>");
-
 							}
 						}//panjang
 					}
