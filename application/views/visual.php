@@ -101,8 +101,6 @@
 			for (var i = 0; i < this.rotasi.length; i++) {
 				this.rotasi[i] = Math.floor(Math.random() * 6)+1;
 			}
-
-
 			this.fitness = 0;
 		}
 
@@ -119,8 +117,6 @@
 			var lebar= 0 ;
 			var panjang = 0 ;
 			var barangmasuk = [];
-			//merah, kuning, hijau, biru, abu
-			var warna = [0xFA000F,0xFCC419,0x36B14D,0x5C7CFA,0x868E96];
 			//id,panjang,lebar,tinggi, berat
 			for (var i = 0; i < this.barang.length; i++) {
 				var brg = this.barang[i];
@@ -182,6 +178,7 @@
 							panjangterpakai = 0;
 							lebarterpakai = 0;
 							tinggiterpakai = 0;
+							barangmasuk.push(brg[0]);
 						}
 					}//panjang
 				}
@@ -189,7 +186,6 @@
 			//hitung volume barang/volume kontainer * 100%
 			var vol_total_barang = 0
 			var vol_kontainer = kpanjang*klebar*ktinggi;
-			console.log(barangmasuk);
 			for (var i = 0; i < barangmasuk.length; i++) {
 				 var brg;
 				for (var j = 0; j < this.barang.length; j++) {
@@ -369,6 +365,7 @@
 			console.log("Generation: " + this.generationCount + " Fittest: " + this.population.fittest);
 			//While population gets an individual with maximum fitness
 			while (this.population.fittest < 100 && this.generationCount<100) {
+				console.log(this.population.individuals);
 				this.generationCount++;
 
 				//Do selection
