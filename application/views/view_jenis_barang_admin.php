@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <title>Data Rute</title>
+  <title>Data Jenis Barang</title>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/popper.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-ui.js"></script>
@@ -31,10 +31,7 @@
           <a class="nav-link" href="<?= site_url("DataStasiun") ?>"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="<?= site_url("DataRute") ?>"><span class="oi oi-map-marker"></span> Data Rute</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
+          <a class="nav-link" href="<?= site_url("DataJenisBarang") ?>"><span class="oi oi-box"></span> Data Jenis Barang</a>
         </li>
       </ul>
       <div class="dropdown">
@@ -56,10 +53,7 @@
               <a class="" href="<?php echo site_url("DataStasiun"); ?>"><span class="oi oi-vertical-align-center"></span> Data Stasiun</a>
             </li>
             <li class="sidebar-list active">
-              <a class="" href="<?php echo site_url("DataRute"); ?>"><span class="oi oi-map-marker"></span> Data Rute</a>
-            </li>
-            <li class="sidebar-list">
-              <a class="" href="<?php echo site_url("DataKontainer") ?>"><span class="oi oi-hard-drive"></span> Data Kontainer</a>
+              <a class="" href="<?php echo site_url("DataJenisBarang"); ?>"><span class="oi oi-box"></span> Data Jenis Barang</a>
             </li>
           </ul>
         </div>
@@ -68,25 +62,23 @@
           <div class="container" id="main">
             <br>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambah">
-              Tambah Rute
+              Tambah Jenis Barang
             </button>
             <br><br>
             <div class="table-responsive">
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">ID Rute</th>
-                    <th scope="col">Nama Rute</th>
-                    <th scope="col">Detail Rute</th>
+                    <th scope="col">ID Jenis</th>
+                    <th scope="col">Jenis Barang</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach ($rute as $row): ?>
+                  <?php foreach ($jenis_barang as $row): ?>
                     <tr>
                       <th scope="row"><?= $row->id ?></th>
-                      <td>Rute <?= $row->nama_rute ?></td>
-                      <td><a class="btn btn-primary" href="<?= site_url("/DataRute/detailRute?id=".$row->id) ?>" role="button">Detail Rute</a></td>
+                      <td><?= $row->jenis_barang ?></td>
                       <td>
                         <button type="button" class="btn btn-warning" data-toggle="modal" onclick="edit(<?= $row->id ?>)" data-target="#modalEdit">
                           Edit
@@ -102,7 +94,7 @@
                   function edit(id) {
                     $.ajax({
                       type : "GET",
-                      url  : "<?php echo site_url("DataRute/get_rute")?>",
+                      url  : "<?php echo site_url("DataJenisBarang/get_jenis")?>",
                       dataType : "JSON",
                       data : {id:id},
                       success: function(data){
@@ -110,7 +102,7 @@
                           // $('#ModalaEdit').modal('show');
                           console.log(data);
                           $('[name="id_edit"]').val(data.id);
-                          $('[name="rute_edit"]').val(data.rute);
+                          $('[name="jenis_edit"]').val(data.jenis_barang);
                         });
                       }
                     });
@@ -119,7 +111,7 @@
                     $('[name="id_hapus"]').val(id);
                   }
                   function tambah() {
-                    let rute =  $("input[name=rute]").val();
+                    let rute =  $("input[name=jenis_barang]").val();
                     if (rute==="") {
                       element = document.getElementById('pesan_tambah');
                       element.removeAttribute("style");
@@ -128,8 +120,8 @@
                     }
                   }
                   function update() {
-                    let rute =  $("input[name=rute_edit]").val();
-                    if (rute==="") {
+                    let jenis_edit =  $("input[name=jenis_edit]").val();
+                    if (jenis_edit ==="") {
                       element = document.getElementById('pesan_edit');
                       element.removeAttribute("style");
                     } else {
@@ -150,9 +142,9 @@
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" id="tambah" action="<?php echo site_url('DataRute/insert') ?>" method="post">
+                <form class="" id="tambah" action="<?php echo site_url('DataJenisBarang/insert') ?>" method="post">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Rute</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Jenis Barang</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -162,9 +154,9 @@
                       Harap isi semua data
                     </div>
                     <div class="form-group row">
-                      <label for="rute" class="col-sm-4 col-form-label">Nama Rute</label>
+                      <label for="jenis_barang" class="col-sm-4 col-form-label">Jenis Barang</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" name="rute" id="rute" placeholder="Masukan nama rute">
+                        <input type="text" class="form-control" name="jenis_barang" id="rute" placeholder="Masukan Jenis Barang">
                       </div>
                     </div>
                   </div>
@@ -180,9 +172,9 @@
           <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" id="edit" action="<?php echo site_url('DataRute/update') ?>" method="post">
+                <form class="" id="edit" action="<?php echo site_url('DataJenisBarang/update') ?>" method="post">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Rute</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Jenis Barang</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
@@ -198,9 +190,9 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="rute_edit" class="col-sm-4 col-form-label">Nama Rute</label>
+                      <label for="jenis_edit" class="col-sm-4 col-form-label">Jenis Barang</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" name="rute_edit" id="rute" placeholder="Masukan Rute">
+                        <input type="text" class="form-control" name="jenis_edit" id="jenis_edit" placeholder="Masukan Jenis Barang">
                       </div>
                     </div>
                   </div>
@@ -216,7 +208,7 @@
           <div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?php echo site_url('DataRute/delete') ?>" method="get">
+                <form class="" action="<?php echo site_url('DataJenisBarang/delete') ?>" method="get">
                   <input type="hidden" name="id_hapus" value="">
                   <div class="modal-body">
                     Anda yakin ingin menghapus?

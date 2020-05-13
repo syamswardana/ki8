@@ -6,7 +6,6 @@ class Visual3d extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('Barang_model');
-		$this->load->model('Kontainer_model');
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect('login');
 		} elseif ($this->session->userdata('status')!='petugas') {
