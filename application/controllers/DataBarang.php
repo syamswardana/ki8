@@ -18,7 +18,6 @@ class DataBarang extends CI_Controller {
 		$data['barang'] = $this->Barang_model->show_barang()->result();
 		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
 		$this->load->view('view_barang_petugas',$data);
-
 	}
 
 	public function insert()

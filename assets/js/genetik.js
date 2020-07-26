@@ -122,6 +122,5 @@ class Genetik {
     console.log("\nSolution found in generation " + this.generationCount);
     console.log("Fitness: "+this.population.getFittest().fitness);
     console.log("Genes: "+this.population.getFittest().genes.join());
-    console.log("");
   }
 }

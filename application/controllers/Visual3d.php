@@ -6,6 +6,8 @@ class Visual3d extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('Barang_model');
+		$this->load->model('Barang_model');
+		$this->load->model('Stasiun_model');
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect('login');
 		} elseif ($this->session->userdata('status')!='petugas') {
@@ -14,10 +16,29 @@ class Visual3d extends CI_Controller {
 	}
 	public function index()
 	{
-		$this->load->view('view_3d_petugas');
+		$data['barang'] = $this->Barang_model->show_barang()->result();
+		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
+		$this->load->view('view_pilih_barang_petugas' ,$data);
 
 	}
+
 	public function visual()
+	{
+		$panjang = $this->input->post('panjang');
+		$lebar = $this->input->post('lebar');
+		$tinggi = $this->input->post('tinggi');
+		$berat = $this->input->post('berat');
+		$barang = $this->input->post('barang');
+		set_cookie('panjang', $panjang ,'3600');
+		set_cookie('lebar', $lebar ,'3600');
+		set_cookie('tinggi', $tinggi ,'3600');
+		set_cookie('berat', $berat ,'3600');
+		set_cookie('barang', json_encode($barang) ,'3600');
+
+		$this->load->view('view_3d_petugas');
+	}
+
+	public function canvas()
 	{
 		$this->load->view('visual');
 	}

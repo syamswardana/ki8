@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 15, 2020 at 02:49 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.0
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 26 Jul 2020 pada 16.16
+-- Versi server: 10.4.8-MariaDB
+-- Versi PHP: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barang`
+-- Struktur dari tabel `barang`
 --
 
 CREATE TABLE `barang` (
@@ -34,6 +34,7 @@ CREATE TABLE `barang` (
   `panjang` int(11) NOT NULL,
   `lebar` int(11) NOT NULL,
   `tinggi` int(11) NOT NULL,
+  `id_jenis` int(11) NOT NULL,
   `asal` int(11) NOT NULL,
   `tujuan` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -41,139 +42,42 @@ CREATE TABLE `barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `barang`
+-- Dumping data untuk tabel `barang`
 --
 
-INSERT INTO `barang` (`id`, `berat`, `panjang`, `lebar`, `tinggi`, `asal`, `tujuan`, `user_id`, `deleted_at`) VALUES
-(1, 1, 120, 100, 80, 7, 6, 5, NULL),
-(2, 1, 140, 120, 90, 7, 6, 5, NULL),
-(3, 1, 90, 80, 70, 5, 6, 5, NULL),
-(4, 2, 80, 90, 120, 5, 7, 5, NULL),
-(5, 2, 70, 80, 85, 5, 7, 5, NULL),
-(6, 3, 150, 140, 50, 5, 5, 5, NULL),
-(7, 5, 120, 140, 100, 5, 5, 5, NULL),
-(9, 1, 122, 143, 132, 5, 7, 5, NULL),
-(10, 2, 134, 123, 142, 5, 8, 5, NULL),
-(11, 1, 120, 100, 180, 7, 6, 5, NULL),
-(12, 1, 140, 120, 190, 7, 6, 5, NULL),
-(13, 1, 90, 180, 70, 5, 6, 5, NULL),
-(14, 2, 80, 190, 120, 5, 7, 5, NULL),
-(15, 2, 170, 80, 185, 5, 7, 5, NULL),
-(16, 3, 150, 140, 150, 5, 5, 5, NULL),
-(17, 5, 120, 140, 110, 5, 5, 5, NULL),
-(18, 1, 122, 123, 123, 5, 7, 5, NULL),
-(19, 1, 122, 243, 132, 5, 7, 5, NULL),
-(20, 2, 134, 423, 142, 5, 8, 5, NULL),
-(23, 1, 90, 80, 70, 5, 6, 5, NULL),
-(28, 1, 1223, 123, 123, 5, 7, 5, NULL),
-(29, 1, 122, 143, 132, 5, 7, 5, NULL),
-(30, 2, 134, 123, 142, 5, 8, 5, NULL),
-(31, 1, 120, 100, 180, 7, 6, 5, NULL),
-(32, 1, 140, 120, 190, 7, 6, 5, NULL),
-(33, 1, 90, 180, 70, 5, 6, 5, NULL),
-(34, 2, 80, 190, 120, 5, 7, 5, NULL),
-(35, 2, 170, 80, 185, 5, 7, 5, NULL),
-(36, 3, 150, 140, 150, 5, 5, 5, NULL),
-(37, 5, 120, 140, 110, 5, 5, 5, NULL),
-(38, 1, 122, 123, 123, 5, 7, 5, NULL),
-(39, 1, 122, 243, 132, 5, 7, 5, NULL),
-(40, 2, 134, 423, 142, 5, 8, 5, NULL),
-(41, 1, 1223, 123, 123, 5, 7, 5, NULL),
-(42, 1, 122, 143, 132, 5, 7, 5, NULL),
-(43, 2, 134, 123, 142, 5, 8, 5, NULL),
-(44, 1, 120, 100, 180, 7, 6, 5, NULL),
-(45, 1, 140, 120, 190, 7, 6, 5, NULL);
+INSERT INTO `barang` (`id`, `berat`, `panjang`, `lebar`, `tinggi`, `id_jenis`, `asal`, `tujuan`, `user_id`, `deleted_at`) VALUES
+(38, 1, 3, 3, 2, 2, 5, 7, 5, NULL),
+(39, 1, 200, 20, 5, 2, 5, 7, 5, NULL),
+(40, 2, 20, 10, 100, 2, 5, 8, 5, NULL),
+(41, 1, 122, 143, 132, 2, 5, 7, 5, NULL),
+(42, 2, 134, 300, 142, 2, 5, 8, 5, NULL),
+(43, 1, 122, 123, 100, 2, 5, 7, 5, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_rute`
+-- Struktur dari tabel `jenis_barang`
 --
 
-CREATE TABLE `detail_rute` (
+CREATE TABLE `jenis_barang` (
   `id` int(11) NOT NULL,
-  `id_rute` int(11) NOT NULL,
-  `id_stasiun` int(11) NOT NULL,
-  `urutan` int(11) NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `jenis_barang` varchar(32) NOT NULL,
+  `deleted_at` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `detail_rute`
+-- Dumping data untuk tabel `jenis_barang`
 --
 
-INSERT INTO `detail_rute` (`id`, `id_rute`, `id_stasiun`, `urutan`, `deleted_at`) VALUES
-(1, 1, 5, 0, NULL),
-(2, 1, 7, 1, NULL),
-(9, 2, 5, 0, NULL),
-(10, 2, 7, 1, NULL),
-(11, 3, 5, 1, NULL);
+INSERT INTO `jenis_barang` (`id`, `jenis_barang`, `deleted_at`) VALUES
+(1, 'Pecah Belah', NULL),
+(2, 'Packing Kayu', NULL),
+(3, 'Makanan', '2020-05-01');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kontainer`
---
-
-CREATE TABLE `kontainer` (
-  `id` int(11) NOT NULL,
-  `panjang` int(11) NOT NULL,
-  `lebar` int(11) NOT NULL,
-  `tinggi` int(11) NOT NULL,
-  `berat_maksimal` int(11) NOT NULL,
-  `rute_id` int(11) NOT NULL,
-  `tanggal_digunakan` date NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `kontainer`
---
-
-INSERT INTO `kontainer` (`id`, `panjang`, `lebar`, `tinggi`, `berat_maksimal`, `rute_id`, `tanggal_digunakan`, `deleted_at`) VALUES
-(1, 11, 12, 12, 1, 2, '2019-09-05', NULL),
-(2, 13, 12, 11, 1, 2, '2019-09-05', NULL),
-(3, 13, 14, 11, 1, 2, '2019-09-05', NULL),
-(4, 13, 14, 16, 1, 2, '2019-09-05', NULL),
-(5, 10, 3, 3, 80, 1, '2019-10-24', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `penataan`
---
-
-CREATE TABLE `penataan` (
-  `id` int(11) NOT NULL,
-  `id_kontainer` int(11) NOT NULL,
-  `id_barang` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `rute`
---
-
-CREATE TABLE `rute` (
-  `id` int(11) NOT NULL,
-  `nama_rute` varchar(32) NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `rute`
---
-
-INSERT INTO `rute` (`id`, `nama_rute`, `deleted_at`) VALUES
-(1, '1', NULL),
-(2, '2', NULL),
-(3, '3', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `stasiun`
+-- Struktur dari tabel `stasiun`
 --
 
 CREATE TABLE `stasiun` (
@@ -184,7 +88,7 @@ CREATE TABLE `stasiun` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `stasiun`
+-- Dumping data untuk tabel `stasiun`
 --
 
 INSERT INTO `stasiun` (`id`, `kota`, `nama_stasiun`, `deleted_at`) VALUES
@@ -197,7 +101,7 @@ INSERT INTO `stasiun` (`id`, `kota`, `nama_stasiun`, `deleted_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -211,7 +115,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `nama`, `id_stasiun`, `status`, `deleted_at`) VALUES
@@ -224,133 +128,74 @@ INSERT INTO `users` (`id`, `username`, `password`, `nama`, `id_stasiun`, `status
 --
 
 --
--- Indexes for table `barang`
+-- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`user_id`),
   ADD KEY `barang_ibfk_2` (`asal`),
-  ADD KEY `barang_ibfk_3` (`tujuan`);
+  ADD KEY `barang_ibfk_3` (`tujuan`),
+  ADD KEY `id_jenis` (`id_jenis`);
 
 --
--- Indexes for table `detail_rute`
+-- Indeks untuk tabel `jenis_barang`
 --
-ALTER TABLE `detail_rute`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_rute` (`id_rute`),
-  ADD KEY `id_stasiun` (`id_stasiun`);
-
---
--- Indexes for table `kontainer`
---
-ALTER TABLE `kontainer`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `rute_id` (`rute_id`);
-
---
--- Indexes for table `penataan`
---
-ALTER TABLE `penataan`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_barang` (`id_barang`),
-  ADD KEY `id_kontainer` (`id_kontainer`);
-
---
--- Indexes for table `rute`
---
-ALTER TABLE `rute`
+ALTER TABLE `jenis_barang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `stasiun`
+-- Indeks untuk tabel `stasiun`
 --
 ALTER TABLE `stasiun`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nama_stasiun` (`nama_stasiun`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `barang`
+-- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
--- AUTO_INCREMENT for table `detail_rute`
+-- AUTO_INCREMENT untuk tabel `jenis_barang`
 --
-ALTER TABLE `detail_rute`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `kontainer`
---
-ALTER TABLE `kontainer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `penataan`
---
-ALTER TABLE `penataan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `rute`
---
-ALTER TABLE `rute`
+ALTER TABLE `jenis_barang`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `stasiun`
+-- AUTO_INCREMENT untuk tabel `stasiun`
 --
 ALTER TABLE `stasiun`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `barang`
+-- Ketidakleluasaan untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `barang_ibfk_2` FOREIGN KEY (`asal`) REFERENCES `stasiun` (`id`),
-  ADD CONSTRAINT `barang_ibfk_3` FOREIGN KEY (`tujuan`) REFERENCES `stasiun` (`id`);
-
---
--- Constraints for table `detail_rute`
---
-ALTER TABLE `detail_rute`
-  ADD CONSTRAINT `detail_rute_ibfk_1` FOREIGN KEY (`id_rute`) REFERENCES `rute` (`id`),
-  ADD CONSTRAINT `detail_rute_ibfk_2` FOREIGN KEY (`id_stasiun`) REFERENCES `stasiun` (`id`);
-
---
--- Constraints for table `kontainer`
---
-ALTER TABLE `kontainer`
-  ADD CONSTRAINT `kontainer_ibfk_1` FOREIGN KEY (`rute_id`) REFERENCES `rute` (`id`);
-
---
--- Constraints for table `penataan`
---
-ALTER TABLE `penataan`
-  ADD CONSTRAINT `penataan_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id`),
-  ADD CONSTRAINT `penataan_ibfk_2` FOREIGN KEY (`id_kontainer`) REFERENCES `kontainer` (`id`);
+  ADD CONSTRAINT `barang_ibfk_3` FOREIGN KEY (`tujuan`) REFERENCES `stasiun` (`id`),
+  ADD CONSTRAINT `barang_ibfk_4` FOREIGN KEY (`id_jenis`) REFERENCES `jenis_barang` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

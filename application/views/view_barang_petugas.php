@@ -7,10 +7,12 @@
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/popper.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-ui.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/datatables.min.js"></script>
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/jquery-ui.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/open-iconic-bootstrap.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/datatables.min.css">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-orange">
@@ -61,7 +63,7 @@
           </button>
           <br><br>
           <div class="table-responsive">
-            <table class="table">
+            <table class="table" id="tabelBarang">
               <thead>
                 <tr>
                   <th scope="col">ID</th>
@@ -96,6 +98,9 @@
                 <?php endforeach; ?>
 
                 <script type="text/javascript">
+                $(document).ready( function () {
+                    $('#tabelBarang').DataTable();
+                } );
                 function edit(id) {
                   $.ajax({
                     type : "GET",
