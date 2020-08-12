@@ -102,6 +102,46 @@ $.ajax({
 		// var fittest = algoritma.fittest.genes;
 		// console.log(fittest);
 		var fittest = [38,39,40,41,42,43];
+		var posisi = [0,0,0,0,0,0];
+		// var posisi = [0,2,3,4,5,5];
+
+		//posisi
+		// 0. x, y, z => p, l, t
+		// 1. x, y, z => t, p, l
+		// 2. x, y, z => l, t, p
+		// 3. x, y, z => l, p, t
+		// 4. x, y, z => t, l, p
+		// 5. x, y, z => p, t, l
+		for (var i = 0; i < posisi.length; i++) {
+			for (var j = 0; j < barang.length; j++) {
+				if (barang[j][0] == fittest[i]) {
+					if (posisi[i] == 0) {
+							//tetap
+					} else if (posisi[i] == 1) {
+						var temp = barang[j][1];
+						barang[j][1] = barang[j][3];
+						barang[j][3] = barang[j][2];
+						barang[j][2] = temp;
+					} else if (posisi[i] == 2) {
+						var temp = barang[j][1];
+						barang[j][1] = barang[j][2];
+						barang[j][2] = barang[j][3];
+						barang[j][3] = temp;
+					} else if (posisi[i] == 3) {
+						var temp = barang[j][1];
+						barang[j][1] = barang[j][2];
+						barang[j][2] = temp;
+					} else if (posisi[i] == 4) {
+						var temp = barang[j][1];
+						barang[j][1] = barang[j][3];
+						barang[j][3] = temp;
+					} else if (posisi[i] == 5) {
+						var temp = barang[j][2];
+						barang[j][2] = barang[j][3];
+						barang[j][3] = temp;
+				}
+			}
+		}}
 		visual(fittest);
 		function visual(fittest) {
 
@@ -156,6 +196,7 @@ $.ajax({
 							grubBarang.add( cube );
 							console.log(brg);
 							console.log("alas");
+							console.log(panjangterpakai);
 							kberat-=brg[4];
 							//lihat lagi
 							//add info
@@ -210,6 +251,7 @@ $.ajax({
 									grubBarang.add( cube );
 									console.log(brgLanjutan);
 									console.log("atas");
+									console.log(panjangterpakai);
 									kberat-=brgLanjutan[4];
 									tinggiterpakai+=brgLanjutan[3];
 									panjang = brgLanjutan[1];//
@@ -232,8 +274,9 @@ $.ajax({
 						}//lebar dan tinggi
 						else {
 							//baris baru
-							if (brg[1]<=kpanjang-panjangterpakai&&brg[2]<=klebar&&brg[3]<=ktinggi&&brg[4]<=kberat) {
-								layerPanjang+=panjangterpakai;
+							layerPanjang+=panjangterpakai;
+							console.log("ket:"+brg[1]+"<="+(kpanjang-layerPanjang));
+							if (brg[1]<=kpanjang-layerPanjang&&brg[2]<=klebar&&brg[3]<=ktinggi&&brg[4]<=kberat) {
 								panjangterpakai = 0;
 								lebarterpakai = 0;
 								tinggiterpakai = 0;
@@ -255,6 +298,7 @@ $.ajax({
 								grubBarang.add( cube );
 								console.log(brg);
 								console.log("barisbaru");
+								console.log(panjangterpakai);
 								kberat-=brg[4];
 								//lihat lagi
 								//add info
