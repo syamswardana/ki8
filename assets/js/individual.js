@@ -19,6 +19,37 @@ class Individual {
     for (var i = 0; i < this.rotasi.length; i++) {
       this.rotasi[i] = Math.floor(Math.random() * 6)+1;
     }
+    // atur rotasi
+    for (var i = 0; i < this.rotasi.length; i++) {
+			for (var j = 0; j < this.barang.length; j++) {
+				if (this.barang[j][0] == this.genes[i]) {
+					if (this.rotasi[i] == 0) {
+							//tetap
+					} else if (this.rotasi[i] == 1) {
+						var temp = this.barang[j][1];
+						this.barang[j][1] = this.barang[j][3];
+						this.barang[j][3] = this.barang[j][2];
+						this.barang[j][2] = temp;
+					} else if (this.rotasi[i] == 2) {
+						var temp = this.barang[j][1];
+						this.barang[j][1] = this.barang[j][2];
+						this.barang[j][2] = this.barang[j][3];
+						this.barang[j][3] = temp;
+					} else if (this.rotasi[i] == 3) {
+						var temp = this.barang[j][1];
+						this.barang[j][1] = this.barang[j][2];
+						this.barang[j][2] = temp;
+					} else if (this.rotasi[i] == 4) {
+						var temp = this.barang[j][1];
+						this.barang[j][1] = this.barang[j][3];
+						this.barang[j][3] = temp;
+					} else if (this.rotasi[i] == 5) {
+						var temp = this.barang[j][2];
+						this.barang[j][2] = this.barang[j][3];
+						this.barang[j][3] = temp;
+				}
+			}
+		}}
     this.fitness = 0;
   }
 
@@ -53,20 +84,22 @@ class Individual {
         continue;
       }
       if (brg[4]<=kberat) {
-        if (brg[1]<=kpanjang-panjangterpakai) {
+        if (brg[1]<=kpanjang-layerPanjang) {
           if (brg[2]<=klebar-lebarterpakai&&brg[3]<=ktinggi) {
             barangmasuk.push(brg[0]);
             //kontainer p : 1000, l : 300, t : 300
             //position p,t,l
             kberat-=brg[4];
-            if (brg[1]>layerPanjang) {
-              layerPanjang=brg[1];
+            if (brg[1]>panjangterpakai) {
+              panjangterpakai=brg[1];
             }
-            tinggiterpakai = brg[3];
-            //lebar dan panjang alas
-            lebar = brg[2];
-            panjang = brg[1];
-
+            if (tinggiterpakai==0) {
+              tinggiterpakai=brg[3];
+              lebar = brg[2];
+              panjang = brg[1];
+            } else {
+              tinggiterpakai+=brg[3];
+            }
             for (var j = 0; j < this.genes.length; j++) {
               var brgLanjutan = null;
               for (var o = 0; o < this.barang.length; o++) {
@@ -100,11 +133,13 @@ class Individual {
             tinggiterpakai=0;
           }//lebar dan tinggi
           else {
-            panjangterpakai+=layerPanjang;
-            layerPanjang = 0;
-            lebarterpakai = 0;
-            tinggiterpakai = 0;
-            barangmasuk.push(brg[0]);
+            if (brg[1]<=kpanjang-(layerPanjang+panjangterpakai)&&brg[2]<=klebar&&brg[3]<=ktinggi&&brg[4]<=kberat) {
+              layerPanjang+=panjangterpakai;
+              panjangterpakai = 0;
+              lebarterpakai = 0;
+              tinggiterpakai = 0;
+              i--;
+            }
           }
         }//panjang
       }

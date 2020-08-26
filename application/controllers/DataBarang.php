@@ -7,6 +7,7 @@ class DataBarang extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Barang_model');
 		$this->load->model('Stasiun_model');
+		$this->load->model('Jenis_barang_model');
 		if($this->session->userdata('logged_in') != TRUE){
 			redirect('login');
 		} elseif ($this->session->userdata('status')!='petugas') {
@@ -17,6 +18,7 @@ class DataBarang extends CI_Controller {
 	{
 		$data['barang'] = $this->Barang_model->show_barang()->result();
 		$data['stasiun'] = $this->Stasiun_model->show_stasiun()->result();
+		$data['jenis_barang'] = $this->Jenis_barang_model->show_jenis()->result();
 		$this->load->view('view_barang_petugas',$data);
 	}
 
@@ -28,6 +30,7 @@ class DataBarang extends CI_Controller {
 			'panjang'=>$this->input->post('panjang',TRUE),
 			'lebar'=>$this->input->post('lebar',TRUE),
 			'tinggi'=>$this->input->post('tinggi',TRUE),
+			'id_jenis'=>$this->input->post('jenis',TRUE),
 			'asal'=>$this->input->post('asal',TRUE),
 			'tujuan'=>$this->input->post('tujuan',TRUE),
 			'user_id'=>$this->session->userdata('id')
@@ -48,6 +51,7 @@ class DataBarang extends CI_Controller {
 				'panjang'=>$row->panjang,
 				'lebar'=>$row->lebar,
 				'tinggi'=>$row->tinggi,
+				'jenis'=>$row->id_jenis,
 				'asal'=>$row->asal,
 				'tujuan'=>$row->tujuan
 			);

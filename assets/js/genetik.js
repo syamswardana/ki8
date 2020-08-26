@@ -96,7 +96,7 @@ class Genetik {
     this.population.calculateFitness();
     console.log("Generation: " + this.generationCount + " Fittest: " + this.population.fittest);
     //While population gets an individual with maximum fitness
-    while (this.population.fittest < 100 && this.generationCount<100) {
+    while (this.population.fittest < 100 && this.generationCount< 25) {
       console.table(this.population.individuals);
       this.generationCount++;
 

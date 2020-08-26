@@ -66,45 +66,53 @@
           <div id="pesan" class="alert alert-danger" style="display:none" role="alert">
             Harap isi semua data
           </div>
+          <div id="ukuran" class="alert alert-warning" role="alert">
+            Ukuran maksimal Panjang : 20; Lebar : 2,5; Tinggi : 2,5
+          </div>
           <div class="row">
-            <div class="col-lg-2 col-md-3">
+            <div class="col-lg-2 col-md-3 col-sm-6">
               <span style="font-size:larger">Ukuran Kontainer</span>
             </div>
-            <!-- panjang -->
-            <div class="col-lg-2 col-md-3">
-              <div class="input-group">
-                <input type="number" class="form-control" name="panjang" placeholder="Panjang">
-                <div class="input-group-append">
-                  <span class="input-group-text">cm</span>
+            <div class="col-lg-10 col-md-9">
+              <div class="row">
+                <!-- panjang -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="panjang" placeholder="Panjang">
+                    <div class="input-group-append">
+                      <span class="input-group-text">M</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- lebar -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="lebar" placeholder="Lebar">
+                    <div class="input-group-append">
+                      <span class="input-group-text">M</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- tinggi -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="tinggi" placeholder="tinggi">
+                    <div class="input-group-append">
+                      <span class="input-group-text">M</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- berat -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="berat" placeholder="Berat maks">
+                    <div class="input-group-append">
+                      <span class="input-group-text">kg</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- lebar -->
-            <div class="col-md-2 col-md-3">
-              <div class="input-group">
-                <input type="number" class="form-control" name="lebar" placeholder="Lebar">
-                <div class="input-group-append">
-                  <span class="input-group-text">cm</span>
-                </div>
-              </div>
-            </div>
-            <!-- tinggi -->
-            <div class="col-lg-2 col-md-3">
-              <div class="input-group">
-                <input type="number" class="form-control" name="tinggi" placeholder="tinggi">
-                <div class="input-group-append">
-                  <span class="input-group-text">cm</span>
-                </div>
-              </div>
-            </div>
-            <!-- berat -->
-            <div class="col-lg-2 col-md-3">
-              <div class="input-group">
-                <input type="number" class="form-control" name="berat" placeholder="Berat">
-                <div class="input-group-append">
-                  <span class="input-group-text">kg</span>
-                </div>
-              </div>
+
             </div>
           </div>
           <br>
@@ -121,6 +129,7 @@
                   <th scope="col">Panjang (cm)</th>
                   <th scope="col">Lebar (cm)</th>
                   <th scope="col">Tinggi (cm)</th>
+                  <th scope="col">Jenis Barang</th>
                   <th scope="col">Asal</th>
                   <th scope="col">Tujuan</th>
                 </tr>
@@ -136,6 +145,7 @@
                     <td><?php echo $row->panjang; ?> cm</td>
                     <td><?php echo $row->lebar ?> cm</td>
                     <td><?php echo $row->tinggi ?> cm</td>
+                    <td><?php echo $row->jenis_barang ?></td>
                     <td><?php echo $row->asal ?></td>
                     <td><?php echo $row->tujuan ?></td>
                   </tr>
@@ -185,6 +195,12 @@
                   if (panjang===""||lebar===""||tinggi===""||berat===""||checked == 0) {
                     element = document.getElementById('pesan');
                     element.removeAttribute("style");
+                  } else if (parseInt(panjang) > 20 || parseInt(lebar) > 2.5 || parseInt(tinggi) > 2.5) {
+                    element = document.getElementById('ukuran');
+                    element.removeAttribute("style");
+                    console.log(panjang);
+                    console.log(lebar);
+                    console.log(tinggi);
                   } else {
                     document.forms["parameter"].submit();
                   }

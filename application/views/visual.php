@@ -56,7 +56,12 @@ document.body.appendChild( renderer.domElement );
 var grubBarang = new THREE.Object3D();
 
 //kontainer
-var kontainer = [6,3,3,400];
+// var kontainer = [6,3,3,400];
+var kontainer = Cookies.getJSON('kontainer');
+for (var i = 0; i < kontainer.length; i++) {
+	kontainer[i] = parseFloat(kontainer[i]);
+}
+console.log(kontainer);
 var geometryKontainer = new THREE.BoxGeometry( kontainer[0]*100, kontainer[1]*100, kontainer[2]*100);
 var edges = new THREE.EdgesGeometry( geometryKontainer );
 var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) );
@@ -83,59 +88,61 @@ $.ajax({
 	success: function(data){
 		//id,panjang,lebar,tinggi, berat
 		var pilihan = Cookies.getJSON('barang');
+		console.log(pilihan);
 		var barang = [];
 		for (var i = 0; i < data.length; i++) {
-			// for (var j = 0; j < pilihan.length; j++) {
-			// 	if (data[i].id==pilihan[j]) {
+			for (var j = 0; j < pilihan.length; j++) {
+				if (data[i].id==pilihan[j]) {
 			barang.push([]);
-			barang[i][0] = parseInt(data[i].id);
-			barang[i][1] = parseInt(data[i].panjang);
-			barang[i][2] = parseInt(data[i].lebar);
-			barang[i][3] = parseInt(data[i].tinggi);
-			barang[i][4] = parseInt(data[i].berat);
-			// }
-			// }
+			barang[j][0] = parseInt(data[i].id);
+			barang[j][1] = parseInt(data[i].panjang);
+			barang[j][2] = parseInt(data[i].lebar);
+			barang[j][3] = parseInt(data[i].tinggi);
+			barang[j][4] = parseInt(data[i].berat);
+			}
+			}
 		}
 		// console.log(pilihan);
-		// var algoritma = new Genetik(kontainer,barang);
-		// algoritma.start();
-		// var fittest = algoritma.fittest.genes;
+		var algoritma = new Genetik(kontainer,barang);
+		algoritma.start();
+		var fittest = algoritma.fittest.genes;
+		var rotasi = algoritma.fittest.rotasi;
 		// console.log(fittest);
-		var fittest = [38,39,40,41,42,43];
-		var posisi = [0,0,0,0,0,0];
-		// var posisi = [0,2,3,4,5,5];
 
-		//posisi
+		//test
+		// var fittest = [38,39,40,41,42,43];
+		// var rotasi = [0,0,0,0,0,0];
+		//rotasi
 		// 0. x, y, z => p, l, t
 		// 1. x, y, z => t, p, l
 		// 2. x, y, z => l, t, p
 		// 3. x, y, z => l, p, t
 		// 4. x, y, z => t, l, p
 		// 5. x, y, z => p, t, l
-		for (var i = 0; i < posisi.length; i++) {
+		for (var i = 0; i < rotasi.length; i++) {
 			for (var j = 0; j < barang.length; j++) {
 				if (barang[j][0] == fittest[i]) {
-					if (posisi[i] == 0) {
+					if (rotasi[i] == 0) {
 							//tetap
-					} else if (posisi[i] == 1) {
+					} else if (rotasi[i] == 1) {
 						var temp = barang[j][1];
 						barang[j][1] = barang[j][3];
 						barang[j][3] = barang[j][2];
 						barang[j][2] = temp;
-					} else if (posisi[i] == 2) {
+					} else if (rotasi[i] == 2) {
 						var temp = barang[j][1];
 						barang[j][1] = barang[j][2];
 						barang[j][2] = barang[j][3];
 						barang[j][3] = temp;
-					} else if (posisi[i] == 3) {
+					} else if (rotasi[i] == 3) {
 						var temp = barang[j][1];
 						barang[j][1] = barang[j][2];
 						barang[j][2] = temp;
-					} else if (posisi[i] == 4) {
+					} else if (rotasi[i] == 4) {
 						var temp = barang[j][1];
 						barang[j][1] = barang[j][3];
 						barang[j][3] = temp;
-					} else if (posisi[i] == 5) {
+					} else if (rotasi[i] == 5) {
 						var temp = barang[j][2];
 						barang[j][2] = barang[j][3];
 						barang[j][3] = temp;
@@ -175,6 +182,7 @@ $.ajax({
 				if (berhenti == true) {
 					continue;
 				}
+				// console.log("awal :"+brg);
 				if (brg[4]<=kberat) { //tanya
 					if (brg[1]<=kpanjang-layerPanjang) {
 						// console.log("lebar = "+brg[2]+"<="+(klebar-lebarterpakai));
@@ -192,11 +200,12 @@ $.ajax({
 							var cube = new THREE.Mesh( geometry, material );
 							//kontainer p : 1000, l : 300, t : 300
 							//position p,t,l
-							cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-lebarterpakai-(brg[2]/2));
+							cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),(klebar/2)-lebarterpakai-(brg[2]/2));
+							// console.log(klebar/2+","+lebarterpakai+","+brg[2]/2);
 							grubBarang.add( cube );
-							console.log(brg);
-							console.log("alas");
-							console.log(panjangterpakai);
+							// console.log(brg);
+							// console.log("alas");
+							// console.log(panjangterpakai);
 							kberat-=brg[4];
 							//lihat lagi
 							//add info
@@ -247,11 +256,11 @@ $.ajax({
 									var cube = new THREE.Mesh( geometry, material );
 									//kontainer p : 1000, l : 300, t : 300
 									//position p,t,l
-									cube.position.set((kpanjang/2)-(brgLanjutan[1]/2)-layerPanjang,(((ktinggi/2)*-1)+(brgLanjutan[3]/2)+tinggiterpakai),150-(brgLanjutan[2]/2)-lebarterpakai);
+									cube.position.set((kpanjang/2)-(brgLanjutan[1]/2)-layerPanjang,(((ktinggi/2)*-1)+(brgLanjutan[3]/2)+tinggiterpakai),(klebar/2)-(brgLanjutan[2]/2)-lebarterpakai);
 									grubBarang.add( cube );
-									console.log(brgLanjutan);
-									console.log("atas");
-									console.log(panjangterpakai);
+									// console.log(brgLanjutan);
+									// console.log("atas");
+									// console.log(panjangterpakai);
 									kberat-=brgLanjutan[4];
 									tinggiterpakai+=brgLanjutan[3];
 									panjang = brgLanjutan[1];//
@@ -261,7 +270,7 @@ $.ajax({
 									element.append("<tr>");
 									element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
 									element.append("<td><span>id : "+brgLanjutan[0]+"</span></td>");
-									element.append("<td>-> "+brgLanjutan[1]+"x"+brgLanjutan[1]+"x"+brgLanjutan[1]+"</td>");
+									element.append("<td>-> "+brgLanjutan[1]+"x"+brgLanjutan[2]+"x"+brgLanjutan[3]+"</td>");
 									element.append("</tr>");
 
 								} else {
@@ -274,52 +283,14 @@ $.ajax({
 						}//lebar dan tinggi
 						else {
 							//baris baru
-							layerPanjang+=panjangterpakai;
-							console.log("ket:"+brg[1]+"<="+(kpanjang-layerPanjang));
-							if (brg[1]<=kpanjang-layerPanjang&&brg[2]<=klebar&&brg[3]<=ktinggi&&brg[4]<=kberat) {
+							if (brg[1]<=kpanjang-(layerPanjang+panjangterpakai)&&brg[2]<=klebar&&brg[3]<=ktinggi&&brg[4]<=kberat) {
+								// console.log("ket:"+brg[2]+"<="+(klebar));
+								// console.log(brg);
+								layerPanjang+=panjangterpakai;
 								panjangterpakai = 0;
 								lebarterpakai = 0;
 								tinggiterpakai = 0;
-
-								barangmasuk.push(brg[0]);
-								//buat objek
-								var color = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
-								var geometry = new THREE.BoxGeometry( brg[1], brg[3], brg[2]);
-								var material = new THREE.MeshBasicMaterial( {
-									color: color,
-									transparent: true,
-									opacity: 1
-								} );
-								// var material = new THREE.MeshBasicMaterial( { color: warna[barangmasuk.length-1] } );
-								var cube = new THREE.Mesh( geometry, material );
-								//kontainer p : 1000, l : 300, t : 300
-								//position p,t,l
-								cube.position.set((kpanjang/2)-(brg[1]/2)-layerPanjang,((ktinggi/2*-1)+(brg[3]/2)),150-lebarterpakai-(brg[2]/2));
-								grubBarang.add( cube );
-								console.log(brg);
-								console.log("barisbaru");
-								console.log(panjangterpakai);
-								kberat-=brg[4];
-								//lihat lagi
-								//add info
-								var element = $("#isiInfo");
-								element.append("<tr>");
-								element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
-								element.append("<td><span>id : "+brg[0]+"</span></td>");
-								element.append("<td>-> "+brg[1]+"x"+brg[2]+"x"+brg[3]+"</td>");
-								element.append("</tr>");
-
-								if (brg[1]>panjangterpakai) {
-									panjangterpakai=brg[1];
-								}
-								if (tinggiterpakai==0) {
-									tinggiterpakai=brg[3];
-									lebar = brg[2];
-									panjang = brg[1];
-								} else {
-									tinggiterpakai+=brg[3];
-								}
-								lebarterpakai=brg[2];
+								i--;
 							}
 						}
 					}//panjang
@@ -374,6 +345,16 @@ function update(event)
 
 function render() {
 	renderer.render( scene, camera );
+}
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize() {
+
+   camera.aspect = window.innerWidth / window.innerHeight;
+   camera.updateProjectionMatrix();
+   renderer.setSize( window.innerWidth, window.innerHeight );
+	 render();
 }
 </script>
 </body>

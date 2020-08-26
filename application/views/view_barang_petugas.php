@@ -71,6 +71,7 @@
                   <th scope="col">Panjang (cm)</th>
                   <th scope="col">Lebar (cm)</th>
                   <th scope="col">Tinggi (cm)</th>
+                  <th scope="col">Jenis Barang</th>
                   <th scope="col">Asal</th>
                   <th scope="col">Tujuan</th>
                   <th scope="col">Action</th>
@@ -84,6 +85,7 @@
                     <td><?php echo $row->panjang; ?> cm</td>
                     <td><?php echo $row->lebar ?> cm</td>
                     <td><?php echo $row->tinggi ?> cm</td>
+                    <td><?php echo $row->jenis_barang ?></td>
                     <td><?php echo $row->asal ?></td>
                     <td><?php echo $row->tujuan ?></td>
                     <td>
@@ -111,11 +113,11 @@
                       $.each(data,function(){
                         // $('#ModalaEdit').modal('show');
                         $('[name="id_edit"]').val(data.id);
-                        console.log(data.id);
                         $('[name="berat_edit"]').val(data.berat);
                         $('[name="panjang_edit"]').val(data.panjang);
                         $('[name="lebar_edit"]').val(data.lebar);
                         $('[name="tinggi_edit"]').val(data.tinggi);
+                        $('[name="jenis_edit"]').val(data.jenis);
                         $('[name="asal_edit"]').val(data.asal);
                         $('[name="tujuan_edit"]').val(data.tujuan);
                       });
@@ -165,6 +167,16 @@
                       <label for="tinggi" class="col-sm-2 col-form-label">Tinggi</label>
                       <div class="col-sm-10">
                         <input type="number" class="form-control" name="tinggi" id="tinggi" placeholder="cm">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="jenis" class="col-sm-2 col-form-label">Jenis Barang</label>
+                      <div class="col-sm-10">
+                        <select class="form-control" name="jenis" id="jenis">
+                          <?php foreach ($jenis_barang as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->jenis_barang?></option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -236,6 +248,16 @@
                       <label for="tinggi" class="col-sm-2 col-form-label">Tinggi</label>
                       <div class="col-sm-10">
                         <input type="number" class="form-control" name="tinggi_edit" id="tinggi" placeholder="tinggi">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="jenis" class="col-sm-2 col-form-label">Jenis Barang</label>
+                      <div class="col-sm-10">
+                        <select class="form-control" name="jenis_edit" id="jenis">
+                          <?php foreach ($jenis_barang as $row): ?>
+                            <option value="<?= $row->id ?>"><?= $row->jenis_barang?></option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
                     </div>
                     <div class="form-group row">
