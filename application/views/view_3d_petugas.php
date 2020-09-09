@@ -54,6 +54,7 @@
         </ul>
       </div>
       <div class="col-md-10" style="padding:0;" id="screen">
+      	  <a href="<?php echo site_url("Visual3d") ?>" style="z-index:10; position:absolute;" class="btn btn-success">Kembali</a>
           <iframe src="<?php echo site_url('Visual3d/canvas') ?>" width="100%" height="100%"></iframe>
         </div>
       </div> <!-- col-md-10-->

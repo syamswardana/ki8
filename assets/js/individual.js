@@ -116,7 +116,7 @@ class Individual {
               if (stop == true) {
                 continue;
               }
-              if (brgLanjutan[2]<=lebar&&brgLanjutan[1]<=panjang&&brgLanjutan[3]<=ktinggi-tinggiterpakai) {
+              if (brgLanjutan[2]<=lebar&&brgLanjutan[1]<=panjang&&brgLanjutan[3]<=ktinggi-tinggiterpakai&&brgLanjutan[4]<=kberat) {
                 barangmasuk.push(brgLanjutan[0]);
                 //kontainer p : 1000, l : 300, t : 300
                 //position p,t,l

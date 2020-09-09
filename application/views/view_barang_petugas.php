@@ -148,25 +148,45 @@
                     <div class="form-group row">
                       <label for="berat" class="col-sm-2 col-form-label">Berat</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="berat" id="berat" placeholder="kg">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="berat" id="berat">
+                          <div class="input-group-append">
+                            <span class="input-group-text">Kg</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="panjang" class="col-sm-2 col-form-label">Panjang</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="panjang" id="panjang" placeholder="cm">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="panjang" id="panjang">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="lebar" class="col-sm-2 col-form-label">Lebar</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="lebar" id="lebar" placeholder="cm">
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="lebar" name="lebar">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="tinggi" class="col-sm-2 col-form-label">Tinggi</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="tinggi" id="tinggi" placeholder="cm">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="tinggi" id="tinggi">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -229,25 +249,45 @@
                     <div class="form-group row">
                       <label for="berat" class="col-sm-2 col-form-label">Berat</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="berat_edit" id="berat" placeholder="kg">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="berat_edit" id="berat">
+                          <div class="input-group-append">
+                            <span class="input-group-text">Kg</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="panjang" class="col-sm-2 col-form-label">Panjang</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="panjang_edit" id="panjang" placeholder="cm">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="panjang_edit" id="panjang">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="lebar" class="col-sm-2 col-form-label">Lebar</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="lebar_edit" id="lebar" placeholder="cm">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="lebar_edit" id="lebar">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="tinggi" class="col-sm-2 col-form-label">Tinggi</label>
                       <div class="col-sm-10">
-                        <input type="number" class="form-control" name="tinggi_edit" id="tinggi" placeholder="tinggi">
+                        <div class="input-group">
+                          <input type="number" class="form-control" name="tinggi_edit" id="tinggi">
+                          <div class="input-group-append">
+                            <span class="input-group-text">cm</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group row">

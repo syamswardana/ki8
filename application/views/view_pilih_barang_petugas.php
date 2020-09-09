@@ -67,7 +67,7 @@
             Harap isi semua data
           </div>
           <div id="ukuran" class="alert alert-warning" role="alert">
-            Ukuran maksimal Panjang : 20; Lebar : 2,5; Tinggi : 2,5
+            Ukuran maksimal Panjang : 20; Lebar : 2.5; Tinggi : 2.5
           </div>
           <div class="row">
             <div class="col-lg-2 col-md-3 col-sm-6">
