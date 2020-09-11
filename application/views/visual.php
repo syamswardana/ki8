@@ -19,7 +19,7 @@
 			table-layout: fixed;
 	}
 	tbody {
-	    height: 80%;
+	    height: 75%;
 	    display: inline-block;
 	    width: 100%;
 	    overflow: auto;
@@ -29,14 +29,13 @@
 	.scroll {
 		overflow-y: auto;
 		overflow: scroll;
-		height: 85%;
 		overflow-x: hidden;
 		scrollbar-width:thin;
 	}
 	.info {
 		position:fixed;
 		color: white;
-		height:400px;
+		height:420px;
 		width:220px;padding: 10px;
 		font-size: 4px;
 		background-color:rgb(26, 26, 26);
@@ -73,7 +72,7 @@
 	<script type="text/javascript" src="<?= base_url(); ?>assets/js/js.cookie-2.2.1.min.js"></script>
 </head>
 <body>
-	<div class="info">
+	<div class="info" id="info">
 		<h4 style="font-size: 20px; margin:10px;text-align:center;">Info</h4>
 		<table>
 			<thead>
@@ -90,6 +89,7 @@
 				<!-- isi -->
 			</tbody>
 		</table>
+		<br>
 	</div>
 	<div class="ket-kontainer">
 		<script type="text/javascript">
@@ -164,7 +164,9 @@ $.ajax({
 		algoritma.start();
 		var fittest = algoritma.fittest.genes;
 		var rotasi = algoritma.fittest.rotasi;
-		// console.log(fittest);
+		// console.log(algoritma.fittest.fitness);
+		var element = $("#info");
+		element.append("<span style='font-size:12px'>Total Luas barang / Luas Kontainer : "+algoritma.fittest.fitness+"%");
 
 		//test
 		// var fittest = [38,39,40,41,42,43];

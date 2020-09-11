@@ -1,7 +1,7 @@
 //Individual class
 class Individual {
 
-  //kontainer,genes,rotasi
+  //kontainer,genes,rotasi,fitness
 
   constructor(kontainer,barang) {
     // console.log(jumlah);

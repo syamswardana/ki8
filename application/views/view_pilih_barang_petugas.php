@@ -196,11 +196,12 @@
                     element = document.getElementById('pesan');
                     element.removeAttribute("style");
                   } else if (parseInt(panjang) > 20 || parseInt(lebar) > 2.5 || parseInt(tinggi) > 2.5) {
-                    element = document.getElementById('ukuran');
-                    element.removeAttribute("style");
-                    console.log(panjang);
-                    console.log(lebar);
-                    console.log(tinggi);
+                    // element = document.getElementById('ukuran');
+                    // element.removeAttribute("style");
+                    // console.log(panjang);
+                    // console.log(lebar);
+                    // console.log(tinggi);
+                    alert("Ukuran maksimal Panjang : 20; Lebar : 2.5; Tinggi : 2.5")
                   } else {
                     document.forms["parameter"].submit();
                   }
