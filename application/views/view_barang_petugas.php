@@ -127,6 +127,30 @@
                 function hapus(id) {
                   $('[name="id_hapus"]').val(id);
                 }
+                function tambah() {
+                  var berat =  $("input[name=berat]").val();
+                  var panjang = $("input[name=panjang]").val();
+                  var lebar = $("input[name=lebar]").val();
+                  var tinggi = $("input[name=tinggi]").val();
+                  if (berat===""||panjang===""||lebar===""||tinggi==="") {
+                    element = document.getElementById('pesan_tambah');
+                    element.removeAttribute("style");
+                  } else {
+                    document.forms["tambah"].submit();
+                  }
+                }
+                function update() {
+                  var berat =  $("input[name=berat]").val();
+                  var panjang = $("input[name=panjang]").val();
+                  var lebar = $("input[name=lebar]").val();
+                  var tinggi = $("input[name=tinggi]").val();
+                  if (berat===""||panjang===""||lebar===""||tinggi==="") {
+                    element = document.getElementById('pesan_edit');
+                    element.removeAttribute("style");
+                  } else {
+                    document.forms["edit"].submit();
+                  }
+                }
                 </script>
                 </tbody>
               </table>
@@ -137,7 +161,7 @@
           <div class="modal fade" id="modalTambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?php echo site_url('DataBarang/insert') ?>" method="post">
+                <form class="" id="tambah"action="<?php echo site_url('DataBarang/insert') ?>" method="post">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Tambah Barang</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -145,6 +169,9 @@
                     </button>
                   </div>
                   <div class="modal-body">
+                    <div id="pesan_tambah" class="alert alert-danger" style="display:none" role="alert">
+                      Harap isi semua data
+                    </div>
                     <div class="form-group row">
                       <label for="berat" class="col-sm-2 col-form-label">Berat</label>
                       <div class="col-sm-10">
@@ -222,7 +249,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="button" onclick="tambah()" class="btn btn-primary">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -232,7 +259,7 @@
           <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="" action="<?php echo site_url('DataBarang/update') ?>" method="post">
+                <form class="" id="edit"action="<?php echo site_url('DataBarang/update') ?>" method="post">
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLabel">Edit Barang</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -323,7 +350,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                  <button type="submit" class="btn btn-primary">Simpan</button>
+                  <button type="button" onclick="update()" class="btn btn-primary">Simpan</button>
                 </div>
               </form>
               </div>

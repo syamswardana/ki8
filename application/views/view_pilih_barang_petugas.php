@@ -212,7 +212,7 @@
             </div><!--table-responsive-->
             <div class="row">
               <div class="col-md-2 offset-md-10">
-                <button type="button" class="btn btn-success" onclick="next()" style="float:right">Next</button>
+                <button type="button" class="btn btn-success" onclick="next()" style="float:right">Lanjut</button>
               </div>
             </div>
           </div>
