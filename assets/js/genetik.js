@@ -26,16 +26,21 @@ class Genetik {
     //Swap values among parents
     for (var i = 0; i < crossOverPoint; i++) {
       var temp = this.fittest.genes[i];
+      var tempRotasi =this.fittest.rotasi[i];
       this.fittest.genes[i] = this.secondFittest.genes[i];//set gene 1 = gene 2
+      this.fittest.rotasi[i] = this.secondFittest.rotasi[i];//set gene 1 = gene 2
       for (var j = 0; j < this.fittest.genes.length; j++) {
         if (this.fittest.genes[j]==this.fittest.genes[i] && j!=i) {
           this.fittest.genes[j] = temp;
+          this.fittest.rotasi[j] = tempRotasi;
         }
       }
       this.secondFittest.genes[i] = temp; //set gene 2 = gene 1
+      this.secondFittest.rotasi[i] = tempRotasi; //set gene 2 = gene 1
       for (var j = 0; j < this.fittest.genes.length; j++) {
         if (this.secondFittest.genes[j]==temp && j!=i) {
           this.secondFittest.genes[j] = this.fittest.genes[i];
+          this.secondFittest.rotasi[j] = this.fittest.rotasi[i];
         }
       }
     }
@@ -53,8 +58,11 @@ class Genetik {
       mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
     }
     var temp = this.fittest.genes[mutationPoint];
+    var tempRotasi = this.fittest.rotasi[mutationPoint];
     this.fittest.genes[mutationPoint] = this.fittest.genes[mutationPoint2];
     this.fittest.genes[mutationPoint2] = temp;
+    this.fittest.rotasi[mutationPoint] = this.fittest.rotasi[mutationPoint2];
+    this.fittest.rotasi[mutationPoint2] = tempRotasi;
 
     //Select a random mutation point
     mutationPoint = Math.floor(Math.random() * this.population.individuals[0].length);
@@ -65,8 +73,11 @@ class Genetik {
       mutationPoint2 = Math.floor(Math.random() * this.population.individuals[0].length);
     }
     var temp = this.secondFittest.genes[mutationPoint];
+    var tempRotasi = this.secondFittest.rotasi[mutationPoint];
     this.secondFittest.genes[mutationPoint] = this.secondFittest.genes[mutationPoint2];
     this.secondFittest.genes[mutationPoint2] = temp;
+    this.secondFittest.rotasi[mutationPoint] = this.secondFittest.rotasi[mutationPoint2];
+    this.secondFittest.rotasi[mutationPoint2] = tempRotasi;
 
   }
 
