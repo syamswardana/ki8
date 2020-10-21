@@ -140,10 +140,10 @@
                   }
                 }
                 function update() {
-                  var berat =  $("input[name=berat]").val();
-                  var panjang = $("input[name=panjang]").val();
-                  var lebar = $("input[name=lebar]").val();
-                  var tinggi = $("input[name=tinggi]").val();
+                  var berat =  $("input[name=berat_edit]").val();
+                  var panjang = $("input[name=panjang_edit]").val();
+                  var lebar = $("input[name=lebar_edit]").val();
+                  var tinggi = $("input[name=tinggi_edit]").val();
                   if (berat===""||panjang===""||lebar===""||tinggi==="") {
                     element = document.getElementById('pesan_edit');
                     element.removeAttribute("style");
@@ -267,6 +267,9 @@
                   </button>
                 </div>
                 <div class="modal-body">
+                  <div id="pesan_edit" class="alert alert-danger" style="display:none" role="alert">
+                    Harap isi semua data
+                  </div>
                     <div class="form-group row">
                       <label for="id" class="col-sm-2 col-form-label">ID</label>
                       <div class="col-sm-10">

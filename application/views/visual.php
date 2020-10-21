@@ -371,14 +371,12 @@ $.ajax({
 
 	//controller
 	var FizzyText = function() {
-		this.wireframe = false;
 		this.transparent = 1.0;
 	};
 
 	window.onload = function() {
 		var text = new FizzyText();
 		var gui = new dat.GUI();
-		gui.add(text, 'wireframe');
 		gui.add(text, 'transparent', 0, 1).onChange(val => {
 			setOpacity(grubBarang, val);
 		});
