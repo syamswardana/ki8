@@ -77,6 +77,7 @@
 		<table>
 			<thead>
 				<tr>
+					<th width="25">No</th>
 					<th width="50">Warna</th>
 					<th width="25">ID</th>
 					<th width="25">P</th>
@@ -222,6 +223,7 @@ $.ajax({
 				var lebar = 0 ;
 				var panjang = 0 ;
 				var barangmasuk = [];
+				var nomer = 1;
 				//merah, kuning, hijau, biru, abu
 				// var warna = [0xFA000F,0xFCC419,0x36B14D,0x5C7CFA,0x868E96];
 				//id,panjang,lebar,tinggi, berat
@@ -270,6 +272,7 @@ $.ajax({
 								//add info
 								var element = $("#isiInfo");
 								element.append("<tr>");
+								element.append("<td width='25'>"+nomer+"</td>");
 								element.append("<td width='50'><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
 								element.append("<td width='25'>"+brg[0]+"</td>");
 								element.append("<td width='25'>"+brg[1]+"</td>");
@@ -277,6 +280,7 @@ $.ajax({
 								element.append("<td width='25'>"+brg[3]+"</td>");
 								element.append("<td width='25'>"+brg[4]+"</td>");
 								element.append("</tr>");
+								nomer++;
 
 								if (brg[1]>panjangterpakai) {
 									panjangterpakai=brg[1];
@@ -330,6 +334,7 @@ $.ajax({
 										//add info
 										var element = $("#isiInfo");
 										element.append("<tr>");
+										element.append("<td>"+nomer+"</td>");
 										element.append("<td><span class=\"icon oi oi-media-stop\" style=\"color:"+color+";\"></span></td>");
 										element.append("<td>"+brgLanjutan[0]+"</td>");
 										element.append("<td>"+brgLanjutan[1]+"</td>");
@@ -337,6 +342,7 @@ $.ajax({
 										element.append("<td>"+brgLanjutan[3]+"</td>");
 										element.append("<td>"+brgLanjutan[4]+"</td>");
 										element.append("</tr>");
+										nomer++;
 
 									} else {
 										// console.log("barang p,l,t : "+brgLanjutan[1]+", "+brgLanjutan[2]+", "+brgLanjutan[3]);
