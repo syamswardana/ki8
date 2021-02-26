@@ -4,7 +4,7 @@ class Population{
 
   constructor(kontainer,barang){
     //populasi 10 individu
-    this.individuals = new Array(20);
+    this.individuals = new Array(90);
     for (var i = 0; i < this.individuals.length; i++) {
       //buat individu
       this.individuals[i] = new Individual(kontainer,barang);
